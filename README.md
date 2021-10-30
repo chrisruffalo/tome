@@ -4,6 +4,14 @@
 Tome is a configuration library that is designed to make it easy to configure your application regardless
 of the type of configuration file format.
 
+## Background
+Tome descends from some other configuration libraries like [ee-config](https://github.com/chrisruffalo/ee-config) and 
+[yyall](https://github.com/chrisruffalo/yyall). The lessons learned from those projects have lead to the realization
+that there is no such thing as a one-size-fits-all configuration library. Experiences with cloud-native applications
+has show that being able to compose configuration from multiple sources is extremely important: especially the ability
+to get variable resolution that works across sources.
+
+
 ## Features
 
 ### Flexible Variables
@@ -28,7 +36,8 @@ api:
 
 The above works by parsing the YAML into a bean and then using the bean as a bean source to the resolver. This can
 be extended to any number of sources that have a structure that either maps them out as properties (flat style) or
-as a hierarchy (like beans).
+as a hierarchy (like beans). This means that it is not specific to yaml or one configuration libarary but is available
+for _any_ sort of provider that allows for addressing keys by name.
 
 ### Simple fragment include system
 In order to support non repeating yourself Tome provides an _extremely simple_ fragment inclusion system. Given
