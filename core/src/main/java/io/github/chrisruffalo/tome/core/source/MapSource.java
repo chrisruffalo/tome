@@ -2,7 +2,6 @@ package io.github.chrisruffalo.tome.core.source;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 
 /**
  * Uses Java Property objects as a source for property values

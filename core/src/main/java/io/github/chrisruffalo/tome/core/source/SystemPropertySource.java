@@ -1,7 +1,5 @@
 package io.github.chrisruffalo.tome.core.source;
 
-import java.util.Properties;
-
 /**
  * Provides access to System Properties as a Source
  */

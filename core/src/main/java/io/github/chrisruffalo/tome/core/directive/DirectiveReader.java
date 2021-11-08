@@ -5,7 +5,6 @@ import io.github.chrisruffalo.tome.core.reader.TransformingReader;
 import io.github.chrisruffalo.tome.core.token.DefaultHandler;
 import io.github.chrisruffalo.tome.core.token.Handler;
 import io.github.chrisruffalo.tome.core.token.Token;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -60,7 +59,7 @@ public class DirectiveReader extends TransformingReader<DirectiveContext> {
                 if (directive != null) {
                     final Optional<String> transformResult = directive.transform(token, context);
                     if (transformResult.isPresent()) {
-                        line = StringUtils.replace(line, token.getFullText(), transformResult.get());
+                        line = line.replace(token.getFullText(), transformResult.get());
                     }
                 }
             }

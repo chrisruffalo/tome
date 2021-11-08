@@ -1,10 +1,8 @@
 package io.github.chrisruffalo.tome.core;
 
-import io.github.chrisruffalo.tome.core.configuration.DefaultConfiguration;
 import io.github.chrisruffalo.tome.core.log.Logger;
 import io.github.chrisruffalo.tome.core.source.Source;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**

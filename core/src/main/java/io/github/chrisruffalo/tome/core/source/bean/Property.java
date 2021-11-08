@@ -1,9 +1,9 @@
 package io.github.chrisruffalo.tome.core.source.bean;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +58,7 @@ class Property implements Iterable<Property> {
         // keep all the segments here so that we can stitch them together later
         final List<Property> properties = new LinkedList<>();
 
-        final String[] segments = StringUtils.split(fulLPropertyPath, ".");
+        final String[] segments = fulLPropertyPath.split("\\.");
         Arrays.stream(segments).forEach(segment -> {
             Matcher localIndexMatcher = INDEX_MATCH.matcher(segment);
 

@@ -1,7 +1,6 @@
 package io.github.chrisruffalo.tome.core.log;
 
 import io.github.chrisruffalo.tome.core.message.Message;
-import io.github.chrisruffalo.tome.core.message.Type;
 
 /**
  * Adapts messages coming from inside the resolver to

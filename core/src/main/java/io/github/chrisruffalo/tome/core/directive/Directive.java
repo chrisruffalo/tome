@@ -1,6 +1,5 @@
 package io.github.chrisruffalo.tome.core.directive;
 
-import io.github.chrisruffalo.tome.core.directive.DirectiveContext;
 import io.github.chrisruffalo.tome.core.token.Token;
 
 import java.io.IOException;

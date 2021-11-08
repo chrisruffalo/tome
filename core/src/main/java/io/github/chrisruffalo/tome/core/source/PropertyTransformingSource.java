@@ -3,7 +3,6 @@ package io.github.chrisruffalo.tome.core.source;
 import io.github.chrisruffalo.tome.core.source.transformers.PropertyTransformer;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 /**
  * Allows a convenient way to transform property names before sending on to another source. This

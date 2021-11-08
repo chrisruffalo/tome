@@ -7,7 +7,6 @@ import io.github.chrisruffalo.tome.core.source.Value;
 import io.github.chrisruffalo.tome.core.token.Handler;
 import io.github.chrisruffalo.tome.core.token.Part;
 import io.github.chrisruffalo.tome.core.token.Token;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -97,7 +96,7 @@ public class DefaultResolver implements Resolver {
     }
 
     private String replace(final String source, final String what, final String with) {
-        return StringUtils.replace(source, what, with);
+        return source != null ? source.replace(what, with) : null;
     }
 
 }

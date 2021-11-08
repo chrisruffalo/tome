@@ -2,7 +2,10 @@
 
 ## Purpose
 Tome is a configuration library that is designed to make it easy to configure your application regardless
-of the type of configuration file format.
+of the type of configuration file format or source. Tome is used to unify configuration by treating each
+source as registry of configuration properties. Sources are designed to be used independently and mixed/matched
+as needed to create multi-layered configuration that come together to make applications easy to configure across
+environments and teams.
 
 ## Background
 Tome descends from some other configuration libraries like [ee-config](https://github.com/chrisruffalo/ee-config) and 

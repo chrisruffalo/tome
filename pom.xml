@@ -13,8 +13,11 @@
     <description>Build organization for the Tome configuration library</description>
 
     <properties>
+        <major>1</major>
+        <minor>0</minor>
+        <patch>0</patch>
         <tag/>
-        <revision>1.0${tag}</revision>
+        <revision>${major}.${minor}.${patch}${tag}</revision>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
