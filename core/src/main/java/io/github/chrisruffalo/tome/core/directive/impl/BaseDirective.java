@@ -1,6 +1,7 @@
 package io.github.chrisruffalo.tome.core.directive.impl;
 
 import io.github.chrisruffalo.tome.core.directive.Directive;
+import io.github.chrisruffalo.tome.core.directive.DirectiveContext;
 import io.github.chrisruffalo.tome.core.token.Part;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public abstract class BaseDirective implements Directive {
      * @param fromIndex the index starting after the directive has read all specific info
      * @return a map of parameters to the directive
      */
-    protected Map<String, String> convertPartsToRemainingParameters(List<Part> remaining, int fromIndex) {
+    protected Map<String, String> convertPartsToRemainingParameters(DirectiveContext context, List<Part> remaining, int fromIndex) {
         final StringBuilder builder = new StringBuilder();
         for (int idx = fromIndex; idx < remaining.size(); idx++) {
             if(!builder.toString().isEmpty()) {
@@ -27,7 +28,7 @@ public abstract class BaseDirective implements Directive {
             }
             builder.append(remaining.get(idx));
         }
-        return parseRemainingParameters(builder.toString());
+        return parseRemainingParameters(context, builder.toString());
     }
 
     /**
@@ -44,10 +45,14 @@ public abstract class BaseDirective implements Directive {
      * @param remainder the remaining string parts
      * @return a map of values contained in the string
      */
-    protected Map<String, String> parseRemainingParameters(String remainder) {
+    protected Map<String, String> parseRemainingParameters(DirectiveContext context, String remainder) {
         final Map<String, String> values = new HashMap<>();
         if(remainder == null || remainder.isEmpty()) {
             return values;
+        }
+
+        if (context.getConfiguration().isPresent()) {
+            remainder = context.getConfiguration().get().format(remainder);
         }
 
         final Scanner scanner = new Scanner(remainder);

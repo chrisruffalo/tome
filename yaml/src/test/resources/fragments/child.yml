@@ -1,1 +1,3 @@
 url: http://${env.host}:${env.port}/api
+user: admin
+pass: ${ system.password | env.password | 'nopasswordgiven' }

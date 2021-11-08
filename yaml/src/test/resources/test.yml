@@ -1,6 +1,4 @@
-env:
-  host: ${ env.alt_host | 'google.com'}
-  port: ${ env.alt_port | '8080'}
+%{include 'plain.yml' }%
 
-child:
-  %{include 'fragments/child.yml' indent=2}%
+resolved:
+  %{include 'fragments/child.yml' indent = ${system.indent | '2'}}%

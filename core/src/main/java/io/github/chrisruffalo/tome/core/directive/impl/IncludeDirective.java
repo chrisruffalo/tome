@@ -42,7 +42,7 @@ public class IncludeDirective extends BaseDirective {
 
         // re-convert all the other parts to a string and then use those to create
         // the map of values that could be parameters to this directive
-        final Map<String, String> parameters = this.convertPartsToRemainingParameters(parts, 2);
+        final Map<String, String> parameters = this.convertPartsToRemainingParameters(context, parts, 2);
 
         // how far to indent lines
         int indent = 0;
@@ -95,7 +95,7 @@ public class IncludeDirective extends BaseDirective {
         final DirectiveContext currentContext = context.split();
 
         // add the parent to the path roots so that we can resolve siblings without needing to know where we came from
-        //currentContext.getRoots().add(path.getParent());
+        currentContext.getRoots().add(path.getParent());
 
         // mark the current token as visited
         context.visit(this.getClass(), token.getFullText());

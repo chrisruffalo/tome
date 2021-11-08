@@ -2,5 +2,7 @@ env:
   host: google.com
   port: 8080
 
-child:
+resolved:
   url: http://google.com:8080/api
+  user: admin
+  pass: nopasswordgiven

@@ -11,7 +11,6 @@ that there is no such thing as a one-size-fits-all configuration library. Experi
 has show that being able to compose configuration from multiple sources is extremely important: especially the ability
 to get variable resolution that works across sources.
 
-
 ## Features
 
 ### Flexible Variables
@@ -60,8 +59,9 @@ smtp:
   port: ${override.port | '25'}
 ```
 
-This allows a simple mechanic to override files depending on another file. In the future this will be more flexible
-by using variables inside the `include` directive 
+This allows a simple mechanic to override files depending on another file. The path fragment supports variables
+as well assuming that the DirectiveConfiguration has been set up with a Configuration that has sources for the
+properties that need to be resolved.
 
 ### Variables from multiple sources
 Since each configuration implementation is designed in such a way that it can be, itself, used a source. One of the

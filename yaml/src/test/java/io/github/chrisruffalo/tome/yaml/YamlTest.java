@@ -23,7 +23,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class YamlLoaderTest {
+public class YamlTest {
 
     private void testFullResolve(String inputFile, String expectedFile, final Configuration configuration) throws IOException {
         final Path source = TestUtil.getPathToTestResource(inputFile);
@@ -68,6 +68,64 @@ public class YamlLoaderTest {
     public void testDirectiveLoading() throws IOException {
         final Configuration configuration = new DefaultConfiguration();
         testFullResolve("test.yml", "expected/expected.yml", configuration);
+    }
+
+    @Test
+    public void testConfigurationLoad() throws IOException {
+        // create configuration shell
+        final Configuration configuration = new DefaultConfiguration();
+
+        // create configuration for loading directives (allows resolving properties in directive commands)
+        final SimpleDirectiveConfiguration directiveConfiguration = new SimpleDirectiveConfiguration();
+        directiveConfiguration.getRootPaths().add(TestUtil.getPathToTestResource("").toAbsolutePath().toString());
+        directiveConfiguration.setConfiguration(configuration);
+
+        final Yaml yaml = new Yaml();
+        YamlBean bean = null;
+
+        // first load the configuration object using the bean as the source
+        try (final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(TestUtil.getPathToTestResource("test.yml")), directiveConfiguration)) {
+            configuration.addSource(100, new BeanSource(yaml.load(yamlReader)));
+        }
+
+        // test formatting
+        Assertions.assertEquals("connecting to 'http://google.com:8080/api' with user='admin' and password='nopasswordgiven'", configuration.format("connecting to '${resolved.url}' with user='${resolved.user}' and password='${resolved.pass}'"));
+    }
+
+    @Test
+    public void testBeanLoad() throws IOException {
+        // create configuration shell
+        final Configuration configuration = new DefaultConfiguration();
+
+        // create configuration for loading directives (allows resolving properties in directive commands)
+        final SimpleDirectiveConfiguration directiveConfiguration = new SimpleDirectiveConfiguration();
+        directiveConfiguration.getRootPaths().add(TestUtil.getPathToTestResource("").toAbsolutePath().toString());
+        directiveConfiguration.setConfiguration(configuration);
+
+        final Yaml yaml = new Yaml();
+        YamlBean bean = null;
+
+        // first load the configuration object using the bean as the source
+        try (final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(TestUtil.getPathToTestResource("test.yml")), directiveConfiguration)) {
+            configuration.addSource(100, new BeanSource(yaml.load(yamlReader)));
+        }
+
+        // test formatting
+        Assertions.assertEquals("connecting to 'http://google.com:8080/api' with user='admin' and password='nopasswordgiven'", configuration.format("connecting to '${resolved.url}' with user='${resolved.user}' and password='${resolved.pass}'"));
+
+        // then, using the same approach, create a fully resolved reader
+        try (
+            final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(TestUtil.getPathToTestResource("test.yml")), directiveConfiguration);
+            final Reader resolvingReader = new ResolvingReader(yamlReader, configuration);
+        ) {
+            bean = yaml.loadAs(resolvingReader, YamlBean.class);
+        }
+
+        // ensure the bean has loaded fully resolved properties
+        Assertions.assertNotNull(bean);
+        Assertions.assertEquals("http://google.com:8080/api", bean.getResolved().getUrl());
+        Assertions.assertEquals("admin", bean.getResolved().getUser());
+        Assertions.assertEquals("nopasswordgiven", bean.getResolved().getPass());
     }
 
 }

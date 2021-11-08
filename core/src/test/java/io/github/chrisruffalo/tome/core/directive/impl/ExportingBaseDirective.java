@@ -16,7 +16,7 @@ public class ExportingBaseDirective extends BaseDirective {
     }
 
     public Map<String, String> exportParseRemainingParameters(String remainder) {
-        return this.parseRemainingParameters(remainder);
+        return this.parseRemainingParameters(new DirectiveContext(new SimpleDirectiveConfiguration()), remainder);
     }
 
 

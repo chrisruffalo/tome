@@ -16,8 +16,6 @@ public class DirectiveContext implements TransformContext {
 
     private String lineSeparator = System.lineSeparator();
 
-    private Configuration configuration;
-
     private final DirectiveConfiguration directiveConfiguration;
 
     /**
@@ -59,11 +57,7 @@ public class DirectiveContext implements TransformContext {
     }
 
     public Optional<Configuration> getConfiguration() {
-        return Optional.ofNullable(configuration);
-    }
-
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
+        return this.getDirectiveConfiguration().getConfiguration();
     }
 
     public String getLineSeparator() {
