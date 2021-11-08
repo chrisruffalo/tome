@@ -2,6 +2,7 @@ package io.github.chrisruffalo.tome.yaml;
 
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.core.configuration.DefaultConfiguration;
+import io.github.chrisruffalo.tome.core.directive.DirectiveConfiguration;
 import io.github.chrisruffalo.tome.core.directive.DirectiveReader;
 import io.github.chrisruffalo.tome.core.directive.impl.SimpleDirectiveConfiguration;
 import io.github.chrisruffalo.tome.core.resolver.DefaultResolver;
@@ -25,13 +26,19 @@ import java.nio.file.Path;
 
 public class YamlTest {
 
+    private DirectiveConfiguration createTestDirectiveConfiguration(final Configuration withBootstrap) {
+        // create configuration for loading directives (allows resolving properties in directive commands)
+        final SimpleDirectiveConfiguration directiveConfiguration = new SimpleDirectiveConfiguration();
+        directiveConfiguration.getRootPaths().add(TestUtil.getPathToTestResource("").toAbsolutePath().toString());
+        directiveConfiguration.setConfiguration(withBootstrap);
+        return directiveConfiguration;
+    }
+
     private void testFullResolve(String inputFile, String expectedFile, final Configuration configuration) throws IOException {
         final Path source = TestUtil.getPathToTestResource(inputFile);
         final Path output = TestUtil.getTestOutputFile(source.getFileName().toString() + "_", ".output");
 
-        final SimpleDirectiveConfiguration directiveConfiguration = new SimpleDirectiveConfiguration();
-        directiveConfiguration.setConfiguration(configuration);
-        directiveConfiguration.getRootPaths().add(TestUtil.getPathToTestResource("").toAbsolutePath().toString());
+        final DirectiveConfiguration directiveConfiguration = createTestDirectiveConfiguration(new DefaultConfiguration());
 
         // load / bootstrap the configuration
         final Yaml yaml = new Yaml();
@@ -70,23 +77,26 @@ public class YamlTest {
         testFullResolve("test.yml", "expected/expected.yml", configuration);
     }
 
-    @Test
-    public void testConfigurationLoad() throws IOException {
+    private Configuration loadTestWithConfigurationAndDirectives() throws IOException {
         // create configuration shell
         final Configuration configuration = new DefaultConfiguration();
 
         // create configuration for loading directives (allows resolving properties in directive commands)
-        final SimpleDirectiveConfiguration directiveConfiguration = new SimpleDirectiveConfiguration();
-        directiveConfiguration.getRootPaths().add(TestUtil.getPathToTestResource("").toAbsolutePath().toString());
-        directiveConfiguration.setConfiguration(configuration);
+        final DirectiveConfiguration directiveConfiguration = createTestDirectiveConfiguration(configuration);
 
         final Yaml yaml = new Yaml();
-        YamlBean bean = null;
-
         // first load the configuration object using the bean as the source
         try (final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(TestUtil.getPathToTestResource("test.yml")), directiveConfiguration)) {
             configuration.addSource(100, new BeanSource(yaml.load(yamlReader)));
         }
+
+        return configuration;
+    }
+
+    @Test
+    public void testConfigurationLoad() throws IOException {
+        // create configuration shell
+        final Configuration configuration = loadTestWithConfigurationAndDirectives();
 
         // test formatting
         Assertions.assertEquals("connecting to 'http://google.com:8080/api' with user='admin' and password='nopasswordgiven'", configuration.format("connecting to '${resolved.url}' with user='${resolved.user}' and password='${resolved.pass}'"));
@@ -95,25 +105,13 @@ public class YamlTest {
     @Test
     public void testBeanLoad() throws IOException {
         // create configuration shell
-        final Configuration configuration = new DefaultConfiguration();
-
-        // create configuration for loading directives (allows resolving properties in directive commands)
-        final SimpleDirectiveConfiguration directiveConfiguration = new SimpleDirectiveConfiguration();
-        directiveConfiguration.getRootPaths().add(TestUtil.getPathToTestResource("").toAbsolutePath().toString());
-        directiveConfiguration.setConfiguration(configuration);
+        final Configuration configuration = loadTestWithConfigurationAndDirectives();
 
         final Yaml yaml = new Yaml();
         YamlBean bean = null;
 
-        // first load the configuration object using the bean as the source
-        try (final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(TestUtil.getPathToTestResource("test.yml")), directiveConfiguration)) {
-            configuration.addSource(100, new BeanSource(yaml.load(yamlReader)));
-        }
-
-        // test formatting
-        Assertions.assertEquals("connecting to 'http://google.com:8080/api' with user='admin' and password='nopasswordgiven'", configuration.format("connecting to '${resolved.url}' with user='${resolved.user}' and password='${resolved.pass}'"));
-
         // then, using the same approach, create a fully resolved reader
+        final DirectiveConfiguration directiveConfiguration = createTestDirectiveConfiguration(configuration);
         try (
             final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(TestUtil.getPathToTestResource("test.yml")), directiveConfiguration);
             final Reader resolvingReader = new ResolvingReader(yamlReader, configuration);
