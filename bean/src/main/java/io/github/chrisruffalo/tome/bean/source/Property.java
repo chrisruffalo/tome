@@ -1,4 +1,4 @@
-package io.github.chrisruffalo.tome.core.source.bean;
+package io.github.chrisruffalo.tome.bean.source;
 
 import java.util.Arrays;
 import java.util.Iterator;

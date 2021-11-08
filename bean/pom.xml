@@ -10,9 +10,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tome-yaml</artifactId>
-    <name>Tome :: YAML</name>
-    <description>Tome YAML configuration source</description>
+    <artifactId>tome-bean</artifactId>
+    <name>Tome :: Bean</name>
+    <description>Source for Tome to access Java Beans</description>
+
+    <properties>
+
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -27,29 +31,17 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- core api for extending -->
         <dependency>
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-core</artifactId>
         </dependency>
+
+        <!-- used to navigate beans/java classes to get properties -->
         <dependency>
-            <groupId>io.github.chrisruffalo</groupId>
-            <artifactId>tome-bean</artifactId>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
         </dependency>
 
-        <!-- ability to load yaml -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- shared testing libraries / framework -->
         <dependency>
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-test</artifactId>

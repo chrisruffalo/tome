@@ -10,7 +10,7 @@ import io.github.chrisruffalo.tome.core.resolver.Resolver;
 import io.github.chrisruffalo.tome.core.resolver.ResolvingReader;
 import io.github.chrisruffalo.tome.core.source.Source;
 import io.github.chrisruffalo.tome.core.source.Value;
-import io.github.chrisruffalo.tome.core.source.bean.BeanSource;
+import io.github.chrisruffalo.tome.bean.source.BeanSource;
 import io.github.chrisruffalo.tome.core.token.DefaultHandler;
 import io.github.chrisruffalo.tome.test.TestUtil;
 import org.apache.commons.io.IOUtils;

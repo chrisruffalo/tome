@@ -1,4 +1,4 @@
-package io.github.chrisruffalo.tome.core.source.bean;
+package io.github.chrisruffalo.tome.bean.source;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

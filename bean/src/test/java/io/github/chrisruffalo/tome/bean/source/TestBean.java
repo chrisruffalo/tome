@@ -1,4 +1,4 @@
-package io.github.chrisruffalo.tome.core.source.bean.test;
+package io.github.chrisruffalo.tome.bean.source;
 
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -13,6 +13,7 @@
     <description>Build organization for the Tome configuration library</description>
 
     <properties>
+        <!-- overly complicated version management -->
         <major>1</major>
         <minor>0</minor>
         <patch>0</patch>
@@ -35,6 +36,11 @@
             </dependency>
             <dependency>
                 <groupId>io.github.chrisruffalo</groupId>
+                <artifactId>tome-bean</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.chrisruffalo</groupId>
                 <artifactId>tome-test</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
@@ -46,6 +52,7 @@
         <module>bom</module>
         <module>test</module>
         <module>core</module>
+        <module>bean</module>
         <module>yaml</module>
     </modules>
 
