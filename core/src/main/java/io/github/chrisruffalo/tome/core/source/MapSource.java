@@ -7,7 +7,7 @@ import java.util.Properties;
 /**
  * Uses Java Property objects as a source for property values
  */
-public class MapSource implements Source {
+public class MapSource extends DefaultSource {
 
     private final Map<String, String> source;
 

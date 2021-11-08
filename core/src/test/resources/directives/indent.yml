@@ -1,0 +1,11 @@
+%{ include 'fragments/insert.yml' indent = 0}%
+
+child:
+  %{ include 'fragments/insert.yml' indent = 2}%
+
+grandchild:
+  great:
+    %{ include 'fragments/insert.yml' indent = 4}%
+
+bad:
+  %{ include 'fragments/insert.yml' indent = 2 indent_first}%

@@ -44,7 +44,7 @@ public class Token {
      * may itself be a token and should be further parsed/resolved to find that.
      *
      */
-    private List<String> parts = new LinkedList<>();
+    private List<Part> parts = new LinkedList<>();
 
     public String getFullText() {
         return fullText;
@@ -94,11 +94,11 @@ public class Token {
         this.propertySeparator = propertySeparator;
     }
 
-    public List<String> getParts() {
+    public List<Part> getParts() {
         return parts;
     }
 
-    public void setParts(List<String> parts) {
+    public void setParts(List<Part> parts) {
         this.parts = parts;
     }
 }

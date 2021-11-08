@@ -65,21 +65,21 @@ public class DefaultHandlerTest {
         Assertions.assertEquals("${${nest}}", tokens.get(0).getInnerText());
 
         // first level of finding the inner parts
-        tokens = handler.find(tokens.get(0).getParts().get(0));
+        tokens = handler.find(tokens.get(0).getParts().get(0).getText());
         Assertions.assertEquals("${${nest}}", tokens.get(0).getFullText());
         Assertions.assertEquals("${nest}", tokens.get(0).getInnerText());
         Assertions.assertEquals(1, tokens.size());
         Assertions.assertEquals(1, tokens.get(0).getParts().size());
         Assertions.assertEquals("${nest}", tokens.get(0).getInnerText());
-        Assertions.assertEquals("${nest}", tokens.get(0).getParts().get(0));
+        Assertions.assertEquals("${nest}", tokens.get(0).getParts().get(0).getText());
 
         // second level of finding the inner parts
-        tokens = handler.find(tokens.get(0).getParts().get(0));
+        tokens = handler.find(tokens.get(0).getParts().get(0).getText());
         Assertions.assertEquals("${nest}", tokens.get(0).getFullText());
         Assertions.assertEquals("nest", tokens.get(0).getInnerText());
         Assertions.assertEquals(1, tokens.size());
         Assertions.assertEquals(1, tokens.get(0).getParts().size());
-        Assertions.assertEquals("nest", tokens.get(0).getParts().get(0));
+        Assertions.assertEquals("nest", tokens.get(0).getParts().get(0).getText());
     }
 
     @Test
@@ -91,8 +91,8 @@ public class DefaultHandlerTest {
         Assertions.assertEquals("${ property1 | property2 }", token.getFullText());
         Assertions.assertEquals(" property1 | property2 ", token.getInnerText());
         Assertions.assertEquals(2, token.getParts().size());
-        Assertions.assertEquals("property1", token.getParts().get(0));
-        Assertions.assertEquals("property2", token.getParts().get(1));
+        Assertions.assertEquals("property1", token.getParts().get(0).getText());
+        Assertions.assertEquals("property2", token.getParts().get(1).getText());
     }
 
     @Test
@@ -102,9 +102,9 @@ public class DefaultHandlerTest {
         Token token = tokens.get(0);
 
         Assertions.assertEquals(3, token.getParts().size());
-        Assertions.assertEquals("property1", token.getParts().get(0));
-        Assertions.assertEquals("${property2a | property2b}", token.getParts().get(1));
-        Assertions.assertEquals("${property3}", token.getParts().get(2));
+        Assertions.assertEquals("property1", token.getParts().get(0).getText());
+        Assertions.assertEquals("${property2a | property2b}", token.getParts().get(1).getText());
+        Assertions.assertEquals("${property3}", token.getParts().get(2).getText());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class DefaultHandlerTest {
         final DefaultHandler handler = new DefaultHandler();
         List<Token> tokens = handler.find("${ 'property1' }");
         Token token = tokens.get(0);
-        Assertions.assertEquals("property1", token.getParts().get(0));
+        Assertions.assertEquals("property1", token.getParts().get(0).getText());
     }
 
     @Test
@@ -122,8 +122,8 @@ public class DefaultHandlerTest {
         Token token = tokens.get(0);
 
         Assertions.assertEquals(2, token.getParts().size());
-        Assertions.assertEquals("property1 | ${property2a | property2b} | ${property3} ", token.getParts().get(0));
-        Assertions.assertEquals("property2", token.getParts().get(1));
+        Assertions.assertEquals("property1 | ${property2a | property2b} | ${property3} ", token.getParts().get(0).getText());
+        Assertions.assertEquals("property2", token.getParts().get(1).getText());
     }
 
     @Test
@@ -133,8 +133,8 @@ public class DefaultHandlerTest {
         Token token = tokens.get(0);
 
         Assertions.assertEquals(2, token.getParts().size());
-        Assertions.assertEquals("property1 : ${property2a : property2b} : ${property3} ", token.getParts().get(0));
-        Assertions.assertEquals("property2", token.getParts().get(1));
+        Assertions.assertEquals("property1 : ${property2a : property2b} : ${property3} ", token.getParts().get(0).getText());
+        Assertions.assertEquals("property2", token.getParts().get(1).getText());
     }
 
     @Test
@@ -146,8 +146,8 @@ public class DefaultHandlerTest {
         Assertions.assertEquals("{{ property1 | property2 }}", token.getFullText());
         Assertions.assertEquals(" property1 | property2 ", token.getInnerText());
         Assertions.assertEquals(2, token.getParts().size());
-        Assertions.assertEquals("property1", token.getParts().get(0));
-        Assertions.assertEquals("property2", token.getParts().get(1));
+        Assertions.assertEquals("property1", token.getParts().get(0).getText());
+        Assertions.assertEquals("property2", token.getParts().get(1).getText());
     }
 
     @Test
@@ -159,8 +159,8 @@ public class DefaultHandlerTest {
         Assertions.assertEquals("{{ property1 : property2 }}", token.getFullText());
         Assertions.assertEquals(" property1 : property2 ", token.getInnerText());
         Assertions.assertEquals(2, token.getParts().size());
-        Assertions.assertEquals("property1", token.getParts().get(0));
-        Assertions.assertEquals("property2", token.getParts().get(1));
+        Assertions.assertEquals("property1", token.getParts().get(0).getText());
+        Assertions.assertEquals("property2", token.getParts().get(1).getText());
     }
 
     @Test
@@ -180,7 +180,7 @@ public class DefaultHandlerTest {
 
         tokens = handler.find("${ \"gonna start a quote and end it ` after a mismatched quote in the middle\" }");
         Assertions.assertEquals(1, tokens.size());
-        Assertions.assertEquals("gonna start a quote and end it ` after a mismatched quote in the middle", tokens.get(0).getParts().get(0));
+        Assertions.assertEquals("gonna start a quote and end it ` after a mismatched quote in the middle", tokens.get(0).getParts().get(0).getText());
     }
 
     @Test

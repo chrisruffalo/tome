@@ -6,7 +6,7 @@ import java.util.Properties;
 /**
  * Uses Java Property objects as a source for property values
  */
-public class PropertySource implements Source {
+public class PropertySource extends DefaultSource {
 
     private final Properties source;
 

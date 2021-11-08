@@ -1,0 +1,6 @@
+env:
+  host: ${ env.alt_host | 'google.com'}
+  port: ${ env.alt_port | '8080'}
+
+child:
+  %{include 'fragments/child.yml' indent=2}%

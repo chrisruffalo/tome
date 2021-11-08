@@ -4,9 +4,10 @@ import java.util.Optional;
 
 /**
  * Delegates to the names in another source but requires a prefix
- * to be given.
+ * to be given. The prefix is removed before being passed to the
+ * child source.
  */
-public class PrefixedSource implements Source {
+public class PrefixedSource extends DefaultSource {
 
     private final String prefix;
     private final Source prefixed;

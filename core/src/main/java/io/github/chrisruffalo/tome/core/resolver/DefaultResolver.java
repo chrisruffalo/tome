@@ -5,6 +5,7 @@ import io.github.chrisruffalo.tome.core.message.Type;
 import io.github.chrisruffalo.tome.core.source.Source;
 import io.github.chrisruffalo.tome.core.source.Value;
 import io.github.chrisruffalo.tome.core.token.Handler;
+import io.github.chrisruffalo.tome.core.token.Part;
 import io.github.chrisruffalo.tome.core.token.Token;
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,38 +34,40 @@ public class DefaultResolver implements Resolver {
             final List<Token> tokens = handler.find(input);
             for(final Token token : tokens) {
                 // get token parts to walk through each part for resolution
-                final List<String> parts = token.getParts();
+                final List<Part> parts = token.getParts();
 
-                for(String part : parts) {
-                    if (cache.containsKey(part)) {
-                        input = this.replace(input, token.getFullText(), cache.get(part));
+                for(Part part : parts) {
+                    if (cache.containsKey(part.getText())) {
+                        input = this.replace(input, token.getFullText(), cache.get(part.getText()));
                         break;
                     }
 
-                    if (allreadySeenParts.contains(part)) {
-                        messages.add(new Message(Type.WARN, "The token '%s' contains a part '%s' that is recursively resolved", token.getFullText(), part));
+                    if (allreadySeenParts.contains(part.getText())) {
+                        messages.add(new Message(Type.WARN, "The token '%s' contains a part '%s' that is recursively resolved", token.getFullText(), part.getText()));
                         break;
                     }
-                    allreadySeenParts.add(part);
+                    allreadySeenParts.add(part.getText());
 
                     // do a resolve on the token itself and use it if something changed
-                    if (handler.containsToken(part)) {
-                        final Result partResult = this.resolve(handler, part, new HashSet<>(), new HashSet<>(allreadySeenParts), cache, new LinkedList<>(), sources);
+                    if (handler.containsToken(part.getText())) {
+                        final Result partResult = this.resolve(handler, part.getText(), new HashSet<>(), new HashSet<>(allreadySeenParts), cache, new LinkedList<>(), sources);
                         final String resolvedString = partResult.getResolved();
-                        if (!part.equals(resolvedString)) {
+                        if (!part.getText().equals(resolvedString)) {
                             messages.addAll(partResult.getMessages());
                             input = this.replace(input, token.getFullText(), resolvedString);
-                            cache.put(part, resolvedString);
+                            cache.put(part.getText(), resolvedString);
                             break;
                          }else if (partResult.hasErrors() || partResult.hasWarnings()) {
                             messages.addAll(partResult.getMessages());
                         }
+                    } else if (part.isQuoted()) {
+                        input = this.replace(input, token.getFullText(), part.getText());
                     }
 
                     // try and resolve in sources
                     for (final Source source : sources) {
                         try {
-                            final Optional<Value> found = source.get(part);
+                            final Optional<Value> found = source.get(part.getText());
                             if (found.isPresent()) {
                                 String foundString = found.get().toString();
                                 if (handler.containsToken(foundString)) {
@@ -72,13 +75,13 @@ public class DefaultResolver implements Resolver {
                                     final String resolvedString = partResult.getResolved();
                                     if (!foundString.equals(resolvedString)) {
                                         input = this.replace(input, token.getFullText(), resolvedString);
-                                        cache.put(part, resolvedString);
+                                        cache.put(part.getText(), resolvedString);
                                     } else if (partResult.hasErrors() || partResult.hasWarnings()) {
                                         messages.addAll(partResult.getMessages());
                                     }
                                 } else {
                                     input = this.replace(input, token.getFullText(), foundString);
-                                    cache.put(part, foundString);
+                                    cache.put(part.getText(), foundString);
                                 }
                                 break;
                             }

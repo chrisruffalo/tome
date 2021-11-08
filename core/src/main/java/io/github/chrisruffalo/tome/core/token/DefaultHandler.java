@@ -123,10 +123,10 @@ public class DefaultHandler implements Handler {
      * @param innerText the full inner text
      * @return a list of the parts found, separated by this handlers split character
      */
-    private List<String> separate(final String innerText, final Character separator) {
+    private List<Part> separate(final String innerText, final Character separator) {
         // there is no null guard here. null strings are a bug and should come out as a null pointer exception
 
-        final List<String> parts = new LinkedList<>();
+        final List<Part> parts = new LinkedList<>();
 
         if (innerText.contains(String.valueOf(separator))) {
             // now we do a quote-aware and token aware split of the parts
@@ -162,7 +162,7 @@ public class DefaultHandler implements Handler {
                 // if the separator is the current text then add the part that is currently being built to
                 // the list of parts and restart the loop
                 if (depth == 0 && this.separator == innerText.charAt(idx)) {
-                    parts.add(partBuilder.toString());
+                    parts.add(new Part(partBuilder.toString(), false));
                     partBuilder = new StringBuilder();
                     continue;
                 }
@@ -174,22 +174,27 @@ public class DefaultHandler implements Handler {
             // if an uncompleted part is in the builder then add it
             String part = partBuilder.toString();
             if (!part.isEmpty()) {
-                parts.add(part);
+                parts.add(new Part(part, false));
             }
         } else {
-            parts.add(innerText);
+            parts.add(new Part(innerText, false));
         }
 
         // clean and collect parts
-        return parts.stream().map(partToMap -> {
-            // trim the strings that were added as parts
-            partToMap = partToMap.trim();
-            // if the string was quoted the individual part shouldn't be
-            if (partToMap.length() >= 2 && quotes.contains(partToMap.charAt(0)) && partToMap.charAt(0) == partToMap.charAt(partToMap.length() - 1)) {
-                partToMap = partToMap.substring(1, partToMap.length() - 1);
-            }
-            return partToMap;
-        }).filter(part -> !part.isEmpty()).collect(Collectors.toList());
+        return parts.stream()
+            .filter(Objects::nonNull)
+            .map(part -> {
+                // trim the strings that were added as parts
+                String partToMap = part.getText();
+                partToMap = partToMap.trim();
+                // if the string was quoted the individual part shouldn't be
+                if (partToMap.length() >= 2 && quotes.contains(partToMap.charAt(0)) && partToMap.charAt(0) == partToMap.charAt(partToMap.length() - 1)) {
+                    return new Part(partToMap.substring(1, partToMap.length() - 1), true);
+                }
+                return new Part(partToMap, part.isQuoted());
+            })
+            .filter(part -> !part.getText().isEmpty())
+            .collect(Collectors.toList());
     }
 
     @Override

@@ -1,0 +1,7 @@
+key: value
+map:
+  key0: value
+  key1: value
+list:
+  - item1
+  - item2

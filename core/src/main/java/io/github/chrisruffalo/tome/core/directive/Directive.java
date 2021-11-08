@@ -3,6 +3,7 @@ package io.github.chrisruffalo.tome.core.directive;
 import io.github.chrisruffalo.tome.core.directive.DirectiveContext;
 import io.github.chrisruffalo.tome.core.token.Token;
 
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -19,6 +20,6 @@ public interface Directive {
      * @param context the directive context
      * @return a string if a difference was made, otherwise an empty optional
      */
-    Optional<String> transform(final Token token, DirectiveContext context);
+    Optional<String> transform(final Token token, DirectiveContext context) throws IOException, DirectiveException;
 
 }

@@ -1,4 +1,4 @@
-package io.github.chrisruffalo.tome.core.util;
+package io.github.chrisruffalo.tome.test;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -10,6 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Shared utilities related to finding and opening files
+ * during tests as well as anything else we can use to
+ * prevent repeating code.
+ */
 public class TestUtil {
 
     private final static String JAVA_TMP_DIR_KEY = "java.io.tmpdir";
@@ -59,15 +64,15 @@ public class TestUtil {
             final BufferedReader expectedSource = Files.newBufferedReader(expectedFile);
             final BufferedReader actualSource = Files.newBufferedReader(actualFile);
         ) {
-            int line = 0;
+            int line = 1;
             String sourceLine = null;
             while((sourceLine = expectedSource.readLine()) != null) {
-                Assertions.assertEquals(sourceLine, actualSource.readLine(), String.format("File content mismatch on line %d", line));
+                Assertions.assertEquals(sourceLine, actualSource.readLine(), String.format("[%s] File content mismatch on line %d", actualFile, line));
                 line++;
             }
             final String remainingLine = actualSource.readLine();
             if (remainingLine != null) {
-                Assertions.fail(String.format("Read content on line %d '%s' after end of expected output file", line, remainingLine));
+                Assertions.fail(String.format("[%s] Read content on line %d '%s' after end of expected output file", actualFile, line, remainingLine));
             }
         }
     }

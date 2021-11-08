@@ -1,0 +1,6 @@
+env:
+  host: google.com
+  port: 8080
+
+child:
+  url: http://google.com:8080/api

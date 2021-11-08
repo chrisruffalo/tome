@@ -1,7 +1,7 @@
 package io.github.chrisruffalo.tome.core.directive;
 
 import io.github.chrisruffalo.tome.core.directive.impl.SimpleDirectiveConfiguration;
-import io.github.chrisruffalo.tome.core.util.TestUtil;
+import io.github.chrisruffalo.tome.test.TestUtil;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DirectiveHandlerTest {
+public class DirectiveReaderTest {
 
     private void testProcessAgainst(String inputFile, String expectedFile) throws IOException {
         final SimpleDirectiveConfiguration configuration = new SimpleDirectiveConfiguration();
@@ -26,9 +26,8 @@ public class DirectiveHandlerTest {
         final Path source = TestUtil.getPathToTestResource(inputFile);
         final Path output = TestUtil.getTestOutputFile(source.getFileName().toString() + "_", ".output");
 
-        final DirectiveHandler handler = new DirectiveHandler(configuration);
         try (
-            final Reader processed = handler.reader(Files.newBufferedReader(source));
+            final Reader processed = new DirectiveReader(Files.newBufferedReader(source), configuration);
             final Writer sink = Files.newBufferedWriter(output);
         ) {
             IOUtils.copy(processed, sink);
@@ -64,5 +63,8 @@ public class DirectiveHandlerTest {
         testProcessAgainst("directives/self_recursion.txt", "directives/self_recursion.txt");
     }
 
-
+    @Test
+    public void testIndent() throws IOException {
+        testProcessAgainst("directives/indent.yml", "directives/expected/indent.yml");
+    }
 }

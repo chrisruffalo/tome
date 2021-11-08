@@ -1,0 +1,35 @@
+key: value
+map:
+  key0: value
+  key1: value
+list:
+  - item1
+  - item2
+
+child:
+  key: value
+  map:
+    key0: value
+    key1: value
+  list:
+    - item1
+    - item2
+
+grandchild:
+  great:
+    key: value
+    map:
+      key0: value
+      key1: value
+    list:
+      - item1
+      - item2
+
+bad:
+    key: value
+  map:
+    key0: value
+    key1: value
+  list:
+    - item1
+    - item2
