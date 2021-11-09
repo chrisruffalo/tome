@@ -3,6 +3,10 @@ package io.github.chrisruffalo.tome.core;
 import io.github.chrisruffalo.tome.core.log.Logger;
 import io.github.chrisruffalo.tome.core.source.Source;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -121,11 +125,46 @@ public interface Configuration {
      * a boolean value. If the conversion fails, return empty.
      *
      * @param property the property to resolve
-     * @return the resolved property as a boolean value if possible, empty otherwise
+     * @return the resolved property as a boolean value (using Boolean#parseBoolean)
      */
     default Optional<Boolean> getBoolean(final String property) {
         final Optional<String> gotten = this.get(property);
         return gotten.map(Boolean::parseBoolean);
+    }
+
+    /**
+     * Use the get method and then try and convert the gotten value into
+     * a path.
+     *
+     * @param property the property to resolve as a path
+     * @return the resolved property as a path if found, empty otherwise
+     */
+    default Optional<Path> getPath(final String property) {
+        final Optional<String> gotten = this.get(property);
+        if (!gotten.isPresent()) {
+            return Optional.empty();
+        }
+        return gotten.map(Paths::get);
+    }
+
+    /**
+     * Use expressions in a list to resolve levels of path. The first expression (and each subsequent expression)
+     * is evaluated through the use of the format() function to determine the path.
+     *
+     * @param expression the first expression to resolve (the parent directory)
+     * @param expressions a list of follow-on expressions.
+     * @return the resolved property as a path if found, empty otherwise
+     */
+    default Optional<Path> paths(final String expression, final String... expressions) {
+
+
+        final String response = this.format(expression);
+        final String[] responses = new String[expressions.length];
+        for (int idx = 0; idx < expressions.length; idx++) {
+            responses[idx] = this.format(expressions[idx]);
+        }
+
+        return Optional.of(Paths.get(response, responses));
     }
 
 }

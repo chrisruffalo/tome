@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tome-bean</artifactId>
-    <name>Tome :: Bean</name>
-    <description>Source for Tome to access Java Beans</description>
+    <artifactId>tome-examples</artifactId>
+    <name>Tome :: Examples</name>
+    <description>Examples for using Tome in various situations and configurations</description>
 
     <properties>
 
@@ -31,18 +31,18 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- core api -->
         <dependency>
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-core</artifactId>
         </dependency>
-
-        <!-- used to navigate beans/java classes to get properties -->
         <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
+            <groupId>io.github.chrisruffalo</groupId>
+            <artifactId>tome-bean</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>io.github.chrisruffalo</groupId>
+            <artifactId>tome-yaml</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-test</artifactId>

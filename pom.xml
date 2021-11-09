@@ -45,15 +45,26 @@
                 <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>io.github.chrisruffalo</groupId>
+                <artifactId>tome-yaml</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
+        <!-- support -->
         <module>bom</module>
         <module>test</module>
+
+        <!-- functional modules -->
         <module>core</module>
         <module>bean</module>
         <module>yaml</module>
+
+        <!-- build so that we can see that the examples haven't been messed up -->
+        <module>examples</module>
     </modules>
 
     <build>
