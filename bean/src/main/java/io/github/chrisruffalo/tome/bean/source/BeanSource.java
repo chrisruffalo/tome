@@ -8,6 +8,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * A bean source uses bean introspection to look up the
+ * bean values. Properties are accessed via bean notation
+ * like "parent.child.field" and similar according to the
+ * rules of apache beans.
+ */
 public class BeanSource implements Source {
 
     private final Object bean;

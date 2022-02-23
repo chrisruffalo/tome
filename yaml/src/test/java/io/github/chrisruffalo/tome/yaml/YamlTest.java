@@ -1,5 +1,6 @@
 package io.github.chrisruffalo.tome.yaml;
 
+import io.gihub.chrisruffalo.tome.yaml.YamlSource;
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.core.configuration.DefaultConfiguration;
 import io.github.chrisruffalo.tome.core.directive.DirectiveConfiguration;
@@ -8,9 +9,7 @@ import io.github.chrisruffalo.tome.core.directive.impl.SimpleDirectiveConfigurat
 import io.github.chrisruffalo.tome.core.resolver.DefaultResolver;
 import io.github.chrisruffalo.tome.core.resolver.Resolver;
 import io.github.chrisruffalo.tome.core.resolver.ResolvingReader;
-import io.github.chrisruffalo.tome.core.source.Source;
 import io.github.chrisruffalo.tome.core.source.Value;
-import io.github.chrisruffalo.tome.bean.source.BeanSource;
 import io.github.chrisruffalo.tome.core.token.DefaultHandler;
 import io.github.chrisruffalo.tome.test.TestUtil;
 import org.apache.commons.io.IOUtils;
@@ -41,9 +40,8 @@ public class YamlTest {
         final DirectiveConfiguration directiveConfiguration = createTestDirectiveConfiguration(new DefaultConfiguration());
 
         // load / bootstrap the configuration
-        final Yaml yaml = new Yaml();
         try (final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(source), directiveConfiguration) ){
-            configuration.addSource(1000, new BeanSource(yaml.load(yamlReader)));
+            configuration.addSource(1000, new YamlSource().load(yamlReader));
         }
 
         try (
@@ -59,10 +57,10 @@ public class YamlTest {
     }
 
     @Test
-    public void testBeanSource() throws IOException {
+    public void testYamlSource() throws IOException {
         try (final Reader yamlReader = Files.newBufferedReader(TestUtil.getPathToTestResource("plain.yml")) ) {
-            final Yaml yaml = new Yaml();
-            final Source yamlSource = new BeanSource(yaml.load(yamlReader));
+            final YamlSource yamlSource = new YamlSource();
+            yamlSource.load(yamlReader);
 
             Assertions.assertEquals("${ env.alt_host | 'google.com'}", yamlSource.get("env.host").orElse(new Value("no")).toString());
 
@@ -84,10 +82,9 @@ public class YamlTest {
         // create configuration for loading directives (allows resolving properties in directive commands)
         final DirectiveConfiguration directiveConfiguration = createTestDirectiveConfiguration(configuration);
 
-        final Yaml yaml = new Yaml();
         // first load the configuration object using the bean as the source
         try (final Reader yamlReader = new DirectiveReader(Files.newBufferedReader(TestUtil.getPathToTestResource("test.yml")), directiveConfiguration)) {
-            configuration.addSource(100, new BeanSource(yaml.load(yamlReader)));
+            configuration.addSource(100, new YamlSource().load(yamlReader));
         }
 
         return configuration;
