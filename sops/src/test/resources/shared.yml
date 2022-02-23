@@ -1,0 +1,12 @@
+paths:
+  shared_files: /home
+
+db:
+  user: default
+  password: default
+  url: localhost:3306
+  shard: default
+  tablespace: dev
+  # in the following example enc. allows us to reference a prefixed source that has encrypted values in it but fall back to local
+  # values in the event (like db.shard) there is no encrypted overrride
+  full_url: postgres://${enc.db.user | db.user}:${enc.db.password | db.password}@${enc.db.url | db.url}/${enc.db.shard | db.shard}/${db.tablespace}

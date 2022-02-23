@@ -15,13 +15,24 @@ import java.util.Optional;
  */
 public interface Configuration {
 
+    int DEFAULT_PRIORITY = 50;
+
     /**
      * Add a source to the configurations.
      *
      * @param priority the priority of the source, higher priority sources are checked first by resolvers
-     * @param source the source
+     * @param source to add to the configuration
      */
     void addSource(int priority, Source source);
+
+    /**
+     * Adds a source at the default priority level.
+     *
+     * @param source to add to the configuration
+     */
+    default void addSource(Source source) {
+        addSource(DEFAULT_PRIORITY, source);
+    }
 
     /**
      * Remove all sources from the configuration

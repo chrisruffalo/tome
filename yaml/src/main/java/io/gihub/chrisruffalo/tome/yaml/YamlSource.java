@@ -5,8 +5,11 @@ import io.github.chrisruffalo.tome.core.source.Source;
 import io.github.chrisruffalo.tome.core.source.Value;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 /**
@@ -31,6 +34,14 @@ public class YamlSource implements Source {
         this.yamlInstance = yaml;
         this.read = new Object();
         this.delegate = new BeanSource(read);
+    }
+
+    public YamlSource load(final Path path) throws IOException {
+        try (
+            final Reader input = Files.newBufferedReader(path)
+        ) {
+            return this.load(input);
+        }
     }
 
     public YamlSource load(final String string) {

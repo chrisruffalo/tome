@@ -84,4 +84,16 @@
         </pluginManagement>
     </build>
 
+    <profiles>
+        <profile>
+            <id>sops</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>sops</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>

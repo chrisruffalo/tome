@@ -61,7 +61,7 @@ api:
 
 The above works by parsing the YAML into a bean and then using the bean as a bean source to the resolver. This can
 be extended to any number of sources that have a structure that either maps them out as properties (flat style) or
-as a hierarchy (like beans). This means that it is not specific to yaml or one configuration libarary but is available
+as a hierarchy (like beans). This means that it is not specific to yaml or one configuration library but is available
 for _any_ sort of provider that allows for addressing keys by name.
 
 ### Build configuration in stages
@@ -100,11 +100,11 @@ features that this enables is loading one type of configuration to "bootstrap" a
 file and then use the values in that property file to load or resolve further sources.
 
 ### Customizable token and prefix system
-By default tokens in Tome look like `${ token }` but they can be configured easily to support other token types. Tokens 
+Tokens in Tome look like `${ token }` but they can be configured easily to support other token types. Tokens 
 can be asymmetric (like the default) or symmetric (`@@ token @@`). Symmetric tokens cannot support nesting. Likewise
 there is a separator character (defualt: `|`) between the parts of a token that can be configured as well.
 
-Likewise directives (tokens that change the operation of a file) are available as well. They generally work to include file
+Directives (tokens that change the operation of a file) are available as well. They generally work to include file
 fragments but more features may be added in the future. The default directive token looks like `%{ command option1 option2 }%`
 but it can be configured. Nested tokens may be available in the future for resolution based on bootstrap configuration. Spaces serve
 as the separators between commands and options so any options withs paces should be quoted.

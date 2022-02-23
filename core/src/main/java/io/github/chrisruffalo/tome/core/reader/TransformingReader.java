@@ -49,7 +49,8 @@ public abstract class TransformingReader<CONTEXT extends TransformContext> exten
      *
      * @param line the text of the line to transform
      * @param context the current transformation context
-     * @return
+     *
+     * @return the transformed line
      */
     protected abstract String transform(String line, final CONTEXT context) throws IOException, TransformException;
 
@@ -57,7 +58,7 @@ public abstract class TransformingReader<CONTEXT extends TransformContext> exten
      * Returns the current context of the transform. Can allow settings to be passed between modules
      * and submodules as well as mutating or keeping the same configuration throughout the transform.
      *
-     * @return
+     * @return the transforming context for the current line
      */
     protected abstract CONTEXT getCurrentContext();
 
