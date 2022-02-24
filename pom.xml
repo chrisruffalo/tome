@@ -70,6 +70,7 @@
 
         <!-- ee support -->
         <module>ee/core</module>
+        <module>ee/7</module>
         <module>ee/8</module>
 
         <!-- build so that we can see that the examples haven't been messed up -->

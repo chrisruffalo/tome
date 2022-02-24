@@ -1,0 +1,6 @@
+db:
+  type: postgres
+  host: localhost
+  port: 3306
+  namespace: application
+  url: ${db.type}://${db.host}:${db.port}/${db.namespace}

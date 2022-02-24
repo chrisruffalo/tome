@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tome-ee-8</artifactId>
-    <name>Tome :: EE :: 8</name>
-    <description>Tome support for Jakarta EE 8 (CDI)</description>
+    <artifactId>tome-ee-7</artifactId>
+    <name>Tome :: EE :: 7</name>
+    <description>Tome support for Java EE 7 (CDI)</description>
 
     <properties>
     </properties>
@@ -27,11 +27,11 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-bom -->
+            <!-- https://mvnrepository.com/artifact/org.jboss.spec/jboss-javaee-7.0 -->
             <dependency>
-                <groupId>jakarta.platform</groupId>
-                <artifactId>jakarta.jakartaee-bom</artifactId>
-                <version>8.0.0</version>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>1.1.1.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -54,8 +54,9 @@
         </dependency>
 
         <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -66,11 +67,11 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jboss.weld.se/weld-se-core -->
-        <!-- version chosen because of usage in EAP 7.4 which is EE8 compliant -->
+        <!-- version chosen because of usage in EAP 7.0 which is EE7 compliant -->
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-core</artifactId>
-            <version>3.1.6.Final</version>
+            <version>2.3.3.Final</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

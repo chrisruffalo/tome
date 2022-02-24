@@ -23,7 +23,7 @@ public class SopsReaderTest {
 
     @Test
     public void testFileInputSops() throws IOException {
-        final Path input = TestUtil.getPathToTestResource("test.enc.yml");
+        final Path input = TestUtil.getPathToTestResource("sensitive.enc.yml");
         Assertions.assertTrue(Files.exists(input));
 
         final YamlSource source = new YamlSource();
@@ -39,7 +39,7 @@ public class SopsReaderTest {
 
     @Test
     public void testReaderInputSops() throws IOException {
-        final Path input = TestUtil.getPathToTestResource("test.enc.yml");
+        final Path input = TestUtil.getPathToTestResource("sensitive.enc.yml");
         Assertions.assertTrue(Files.exists(input));
 
         final YamlSource source = new YamlSource();
