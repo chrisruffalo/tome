@@ -7,7 +7,7 @@ import io.github.chrisruffalo.tome.core.source.SystemPropertySource;
 import io.github.chrisruffalo.tome.ee.core.annotations.TomeConfiguration;
 
 @TomeConfiguration(name = "system")
-public class SystemConfiguration implements TomeConfigurationCreator, TomeConfigurationProvider{
+public class SystemConfiguration implements TomeConfigurationCreator, TomeConfigurationModifier {
 
     @Override
     public Configuration create() {

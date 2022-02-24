@@ -4,7 +4,7 @@ import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.ee.annotations.Tome;
 import io.github.chrisruffalo.tome.ee.core.DefaultTomeProvider;
 import io.github.chrisruffalo.tome.ee.core.TomeConfigurationCreator;
-import io.github.chrisruffalo.tome.ee.core.TomeConfigurationProvider;
+import io.github.chrisruffalo.tome.ee.core.TomeConfigurationModifier;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -14,11 +14,9 @@ import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Default
 @ApplicationScoped
@@ -30,7 +28,7 @@ public class ConfigurationProvider extends DefaultTomeProvider {
 
     @Inject
     @Any
-    Instance<TomeConfigurationProvider> providers;
+    Instance<TomeConfigurationModifier> providers;
 
     @Override
     public List<TomeConfigurationCreator> getCreators() {
@@ -42,9 +40,9 @@ public class ConfigurationProvider extends DefaultTomeProvider {
     }
 
     @Override
-    public List<TomeConfigurationProvider> getProviders() {
-        final List<TomeConfigurationProvider> providers = new LinkedList<>();
-        for (TomeConfigurationProvider creator : this.providers) {
+    public List<TomeConfigurationModifier> getProviders() {
+        final List<TomeConfigurationModifier> providers = new LinkedList<>();
+        for (TomeConfigurationModifier creator : this.providers) {
             providers.add(creator);
         }
         return providers;

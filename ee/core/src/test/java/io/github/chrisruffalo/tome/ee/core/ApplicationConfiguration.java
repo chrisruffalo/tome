@@ -5,7 +5,7 @@ import io.github.chrisruffalo.tome.core.configuration.DefaultConfiguration;
 import io.github.chrisruffalo.tome.ee.core.annotations.TomeConfiguration;
 
 @TomeConfiguration
-public class ApplicationConfiguration implements TomeConfigurationCreator, TomeConfigurationProvider {
+public class ApplicationConfiguration implements TomeConfigurationCreator, TomeConfigurationModifier {
 
     @Override
     public Configuration create() {

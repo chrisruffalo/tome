@@ -9,7 +9,7 @@ public abstract class DefaultTomeProvider {
 
     public abstract List<TomeConfigurationCreator> getCreators();
 
-    public abstract List<TomeConfigurationProvider> getProviders();
+    public abstract List<TomeConfigurationModifier> getProviders();
 
     private final Map<String, Configuration> configurationMap = new HashMap<>();
 
@@ -17,7 +17,7 @@ public abstract class DefaultTomeProvider {
         final Set<String> configurationNames = new LinkedHashSet<>();
 
         final Map<String, TomeConfigurationCreator> configurationCreatorMap = new HashMap<>();
-        final Map<String, List<TomeConfigurationProvider>> configurationProviderMap = new HashMap<>();
+        final Map<String, List<TomeConfigurationModifier>> configurationProviderMap = new HashMap<>();
 
         // get creator for name
         this.getCreators().forEach(creator -> {
@@ -52,7 +52,7 @@ public abstract class DefaultTomeProvider {
         // set up configuration for each name
         configurationNames.forEach(name -> {
             final TomeConfigurationCreator creator = configurationCreatorMap.getOrDefault(name, new DefaultTomeConfigurationCreator());
-            final List<TomeConfigurationProvider> providers = configurationProviderMap.getOrDefault(name, Collections.emptyList());
+            final List<TomeConfigurationModifier> providers = configurationProviderMap.getOrDefault(name, Collections.emptyList());
 
             final Configuration configuration = creator.create();
             providers.forEach(provider -> {

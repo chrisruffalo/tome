@@ -18,8 +18,8 @@ public class ConfigurationProvider extends DefaultTomeProvider {
     }
 
     @Override
-    public List<TomeConfigurationProvider> getProviders() {
-        return new LinkedList<TomeConfigurationProvider>(){{
+    public List<TomeConfigurationModifier> getProviders() {
+        return new LinkedList<TomeConfigurationModifier>(){{
             add(applicationConfiguration);
             add(systemConfiguration);
         }};

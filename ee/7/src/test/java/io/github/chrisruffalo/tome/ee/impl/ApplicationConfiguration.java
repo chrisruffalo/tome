@@ -4,12 +4,12 @@ import io.gihub.chrisruffalo.tome.yaml.YamlSource;
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.core.configuration.DefaultConfiguration;
 import io.github.chrisruffalo.tome.ee.core.TomeConfigurationCreator;
-import io.github.chrisruffalo.tome.ee.core.TomeConfigurationProvider;
+import io.github.chrisruffalo.tome.ee.core.TomeConfigurationModifier;
 import io.github.chrisruffalo.tome.ee.core.annotations.TomeConfiguration;
 import io.github.chrisruffalo.tome.test.TestUtil;
 
 @TomeConfiguration
-public class ApplicationConfiguration implements TomeConfigurationCreator, TomeConfigurationProvider {
+public class ApplicationConfiguration implements TomeConfigurationCreator, TomeConfigurationModifier {
 
     @Override
     public Configuration create() {
