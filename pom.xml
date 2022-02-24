@@ -99,7 +99,7 @@
         <profile>
             <id>sops</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
                 <module>sops</module>

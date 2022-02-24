@@ -1,9 +1,11 @@
-package io.github.chrisruffalo.tome.ee.core;
+package io.github.chrisruffalo.tome.ee.core.impl;
 
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.core.configuration.DefaultConfiguration;
 import io.github.chrisruffalo.tome.core.source.EnvironmentVariableSource;
 import io.github.chrisruffalo.tome.core.source.SystemPropertySource;
+import io.github.chrisruffalo.tome.ee.core.TomeConfigurationCreator;
+import io.github.chrisruffalo.tome.ee.core.TomeConfigurationModifier;
 import io.github.chrisruffalo.tome.ee.core.annotations.TomeConfiguration;
 
 @TomeConfiguration(name = "system")

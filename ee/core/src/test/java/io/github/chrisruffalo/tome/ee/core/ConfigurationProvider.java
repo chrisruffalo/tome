@@ -1,5 +1,8 @@
 package io.github.chrisruffalo.tome.ee.core;
 
+import io.github.chrisruffalo.tome.ee.core.impl.ApplicationConfiguration;
+import io.github.chrisruffalo.tome.ee.core.impl.SystemConfiguration;
+
 import java.util.LinkedList;
 import java.util.List;
 

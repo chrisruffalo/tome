@@ -11,10 +11,10 @@ import java.util.Optional;
 /**
  * Test, in a non-ee way, the provider
  */
-public class DefaultTomeProviderTest {
+public class BaseTomeProviderTest {
 
     // in an ee setting this would be an injected parent instance
-    private static ConfigurationProvider configurationProvider = new ConfigurationProvider();
+    private static final ConfigurationProvider configurationProvider = new ConfigurationProvider();
 
     @BeforeAll
     public static void init() {

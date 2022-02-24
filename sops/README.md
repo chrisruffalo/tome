@@ -10,7 +10,8 @@ For more information see the Mozilla SOPS project.
 
 ## Building
 
-This module is active by default but can be disabled with `mvn ... -P\!sops` or `mvn ... -P-sops`.
+This module is not active by default but can be enabled with `mvn ... -Psops`. This is to allow for adding
+the SOPS executable to the path before running this module.
 
 ## Requirements
 
