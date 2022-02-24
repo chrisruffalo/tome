@@ -13,7 +13,7 @@ If you want to learn more about using Tome see the [tome-examples](examples/READ
 Tome descends from some other configuration libraries like [ee-config](https://github.com/chrisruffalo/ee-config) and 
 [yyall](https://github.com/chrisruffalo/yyall). The lessons learned from those projects have lead to the realization
 that there is no such thing as a one-size-fits-all configuration library. Experiences with cloud-native applications
-has show that being able to compose configuration from multiple sources is extremely important: especially the ability
+have shown that being able to compose configuration from multiple sources is extremely important: especially the ability
 to get variable resolution that works across sources.
 
 ## Design Philosophy
@@ -80,8 +80,8 @@ capability. Use system properties or classpath defaults to locate a Java propert
 configuration to resolve an endpoint that is used to pull down the rest of the configuration.
 
 ### Simple fragment include system
-In order to support non repeating yourself Tome provides an _extremely simple_ fragment inclusion system. Given
-a fragment you can include it in another file. Once all the `include` directives have been processed the file can
+In order to support DRY (Don't Repeat Yourself) principles Tome provides an _extremely simple_ fragment inclusion system. 
+Given a fragment you can include it in another file. Once all the `include` directives have been processed the file can
 be read by whatever configuration engine and then used as a `Configuration` source.
 
 Here is a simple example. The following fragment is in `fragments/alternate-smtp.yml`:
@@ -112,7 +112,7 @@ file and then use the values in that property file to load or resolve further so
 ### Customizable token and prefix system
 Tokens in Tome look like `${ token }` but they can be configured easily to support other token types. Tokens 
 can be asymmetric (like the default) or symmetric (`@@ token @@`). Symmetric tokens cannot support nesting. Likewise
-there is a separator character (defualt: `|`) between the parts of a token that can be configured as well.
+there is a separator character (default: `|`) between the parts of a token that can be configured as well.
 
 Directives (tokens that change the operation of a file) are available as well. They generally work to include file
 fragments but more features may be added in the future. The default directive token looks like `%{ command option1 option2 }%`
