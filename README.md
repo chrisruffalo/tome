@@ -26,6 +26,16 @@ This is not an opinionated framework other than in the way it mostly just uses R
 address your configuration source by providing a key-like value and expect a response or if you can make use of a
 Reader then you can benefit from using Tome.
 
+## Modules
+* bom (`tome-bom`) - common bill of materials for external dependencies
+* core (`tome-core`) - core logic for property loading, sources, and resolution
+* bean (`tome-bean`) - specific logic for property resolution in java beans
+* ee (`tome-ee-*`) - java/jakarta EE provider modules ([ee-config](https://github.com/chrisruffalo/ee-config) reborn!)
+* yaml (`tome-yaml`) - yaml reader/compatibility
+* sops (`tome-sops`) - reader compatible with [Mozilla SOPS](https://github.com/mozilla/sops)
+* test (`tome-test`) - utilities used in test cases across all modules
+* examples (`tome-examples`) - various examples on tome use cases 
+
 ## Features
 
 ### Use what you have
