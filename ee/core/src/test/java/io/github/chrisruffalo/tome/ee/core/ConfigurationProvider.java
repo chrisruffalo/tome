@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class ConfigurationProvider extends DefaultTomeProvider {
+public class ConfigurationProvider extends BaseTomeProvider {
 
     private static final ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
     private static final SystemConfiguration systemConfiguration = new SystemConfiguration();
@@ -18,7 +18,7 @@ public class ConfigurationProvider extends DefaultTomeProvider {
     }
 
     @Override
-    public List<TomeConfigurationModifier> getProviders() {
+    public List<TomeConfigurationModifier> getModifiers() {
         return new LinkedList<TomeConfigurationModifier>(){{
             add(applicationConfiguration);
             add(systemConfiguration);

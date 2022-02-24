@@ -2,7 +2,7 @@ package io.github.chrisruffalo.tome.ee;
 
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.ee.annotations.Tome;
-import io.github.chrisruffalo.tome.ee.core.DefaultTomeProvider;
+import io.github.chrisruffalo.tome.ee.core.BaseTomeProvider;
 import io.github.chrisruffalo.tome.ee.core.TomeConfigurationCreator;
 import io.github.chrisruffalo.tome.ee.core.TomeConfigurationModifier;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Default
 @ApplicationScoped
-public class ConfigurationProvider extends DefaultTomeProvider {
+public class ConfigurationProvider extends BaseTomeProvider {
 
     @Inject
     @Any
@@ -36,7 +36,7 @@ public class ConfigurationProvider extends DefaultTomeProvider {
     }
 
     @Override
-    public List<TomeConfigurationModifier> getProviders() {
+    public List<TomeConfigurationModifier> getModifiers() {
         return this.providers.stream().collect(Collectors.toList());
     }
 

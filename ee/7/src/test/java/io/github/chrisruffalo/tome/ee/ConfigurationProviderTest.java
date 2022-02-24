@@ -10,7 +10,7 @@ public class ConfigurationProviderTest extends WeldTest {
     public void testProvider() {
         ConfigurationProvider provider = container().select(ConfigurationProvider.class).get();
 
-        Assertions.assertEquals(2, provider.getProviders().size());
+        Assertions.assertEquals(2, provider.getModifiers().size());
         Assertions.assertEquals(2, provider.getCreators().size());
     }
 
