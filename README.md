@@ -33,6 +33,8 @@ Reader then you can benefit from using Tome.
 * ee (`tome-ee-*`) - java/jakarta EE provider modules ([ee-config](https://github.com/chrisruffalo/ee-config) reborn!)
 * yaml (`tome-yaml`) - yaml reader/compatibility
 * sops (`tome-sops`) - reader compatible with [Mozilla SOPS](https://github.com/mozilla/sops)
+* etcd (`tome-etcd`) - source configuration from etcd
+* vault (`tome-vault`) - source configuration from vault
 * test (`tome-test`) - utilities used in test cases across all modules
 * examples (`tome-examples`) - various examples on tome use cases 
 
