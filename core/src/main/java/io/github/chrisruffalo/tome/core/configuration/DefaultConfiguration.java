@@ -3,6 +3,7 @@ package io.github.chrisruffalo.tome.core.configuration;
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.core.log.Logger;
 import io.github.chrisruffalo.tome.core.log.LoggerFactory;
+import io.github.chrisruffalo.tome.core.log.SpiLoggerFactory;
 import io.github.chrisruffalo.tome.core.log.NoOpLogger;
 import io.github.chrisruffalo.tome.core.resolver.DefaultResolver;
 import io.github.chrisruffalo.tome.core.resolver.Resolver;
@@ -25,7 +26,7 @@ public class DefaultConfiguration implements Configuration {
     private final List<PrioritizedSource> sources = new ArrayList<>(0);
     private Resolver resolver = new DefaultResolver();
     private Handler handler = new DefaultHandler();
-    private Logger logger = LoggerFactory.get();
+    private LoggerFactory loggerFactory = SpiLoggerFactory.get();
 
     public DefaultConfiguration() {
 
@@ -51,20 +52,29 @@ public class DefaultConfiguration implements Configuration {
     }
 
     @Override
-    public void setLogger(Logger logger) {
-        this.logger = logger;
+    public void setLoggerFactory(LoggerFactory loggerFactory) {
+        this.loggerFactory = loggerFactory;
     }
 
     @Override
-    public Logger getLogger() {
-        if (this.logger == null) {
+    public LoggerFactory getLoggerFactory() {
+        return loggerFactory;
+    }
+
+    protected Logger getLogger() {
+        if (this.loggerFactory == null) {
             return new NoOpLogger();
         }
-        return this.logger;
+        final Logger logger = loggerFactory.get(this.getClass());
+        if (logger == null) {
+            return new NoOpLogger();
+        }
+        return logger;
     }
 
     @Override
     public String format(String expression) {
+        final Logger logger = getLogger();
         if (this.resolver == null || this.handler == null) {
             // if a logger is present then allow it to produce error messages
             if (logger != null) {

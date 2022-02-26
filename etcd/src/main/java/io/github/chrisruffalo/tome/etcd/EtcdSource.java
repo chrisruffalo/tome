@@ -39,7 +39,7 @@ public class EtcdSource implements Source {
                     .findFirst();
             return Optional.of(new Value(stringValue));
         } catch (InterruptedException | ExecutionException e) {
-            sourceContext.getLogger().error(String.format("Could not complete ETCD operation for property %s", propertyName), e);
+            sourceContext.getLoggerFactory().get(this.getClass()).error(String.format("Could not complete ETCD operation for property %s", propertyName), e);
         }
 
         return Optional.empty();

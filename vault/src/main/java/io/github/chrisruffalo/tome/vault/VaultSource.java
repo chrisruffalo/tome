@@ -50,7 +50,7 @@ public class VaultSource implements Source {
                 return Optional.of(new Value(response.getData().get(key)));
             }
         } catch (VaultException e) {
-            sourceContext.getLogger().error(String.format("Could not complete vault operation for property path %s, key %s", path, key), e);
+            sourceContext.getLoggerFactory().get(this.getClass()).error(String.format("Could not complete vault operation for property path %s, key %s", path, key), e);
         }
 
         return Optional.empty();

@@ -1,29 +1,29 @@
 package io.github.chrisruffalo.tome.core.resolver;
 
 import io.github.chrisruffalo.tome.core.Configuration;
-import io.github.chrisruffalo.tome.core.log.Logger;
 import io.github.chrisruffalo.tome.core.log.LoggerFactory;
+import io.github.chrisruffalo.tome.core.log.SpiLoggerFactory;
 import io.github.chrisruffalo.tome.core.reader.TransformContext;
 
 public class ResolvingContext implements TransformContext {
 
-    private Logger logger;
+    private LoggerFactory loggerFactory;
 
     public ResolvingContext() {
-        this.logger = LoggerFactory.get();
+        this.loggerFactory = SpiLoggerFactory.get();
     }
 
-    public void setLogger(final Logger logger) {
-        this.logger = logger;
+    public void setLoggerFactory(final LoggerFactory loggerFactory) {
+        this.loggerFactory = loggerFactory;
     }
 
-    public Logger getLogger() {
-        return logger;
+    public LoggerFactory getLoggerFactory() {
+        return loggerFactory;
     }
 
     public static ResolvingContext from(final Configuration configuration) {
         final ResolvingContext context = new ResolvingContext();
-        context.setLogger(configuration.getLogger());
+        context.setLoggerFactory(configuration.getLoggerFactory());
         return context;
     }
 

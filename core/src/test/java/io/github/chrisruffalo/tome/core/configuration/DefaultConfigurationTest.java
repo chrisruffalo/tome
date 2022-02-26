@@ -2,6 +2,7 @@ package io.github.chrisruffalo.tome.core.configuration;
 
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.core.log.CountingLogger;
+import io.github.chrisruffalo.tome.core.log.CountingLoggerFactory;
 import io.github.chrisruffalo.tome.core.resolver.DefaultResolver;
 import io.github.chrisruffalo.tome.core.source.MapSource;
 import io.github.chrisruffalo.tome.core.source.Source;
@@ -25,30 +26,30 @@ public class DefaultConfigurationTest {
     @Test
     public void testMissingHandlerAndOrResolver() {
         final DefaultConfiguration configuration = new DefaultConfiguration();
-        final CountingLogger logger = new CountingLogger();
-        configuration.setLogger(logger);
+        final CountingLoggerFactory factory = new CountingLoggerFactory();
+        configuration.setLoggerFactory(factory);
 
         configuration.setHandler(null);
         configuration.setResolver(null);
 
         Assertions.assertEquals("none", configuration.format("none"));
-        Assertions.assertEquals(1, logger.getError());
-        logger.clear();
+        Assertions.assertEquals(1, factory.get().getError());
+        factory.get().clear();
 
         configuration.setHandler(new DefaultHandler());
         Assertions.assertEquals("none", configuration.format("none"));
-        Assertions.assertEquals(1, logger.getError());
-        logger.clear();
+        Assertions.assertEquals(1, factory.get().getError());
+        factory.get().clear();
 
         configuration.setResolver(new DefaultResolver());
         configuration.setHandler(null);
         Assertions.assertEquals("none", configuration.format("none"));
-        Assertions.assertEquals(1, logger.getError());
-        logger.clear();
+        Assertions.assertEquals(1, factory.get().getError());
+        factory.get().clear();
 
         configuration.setHandler(new DefaultHandler());
         Assertions.assertEquals("none", configuration.format("none"));
-        Assertions.assertEquals(0, logger.getError());
+        Assertions.assertEquals(0, factory.get().getError());
     }
 
     @Test
