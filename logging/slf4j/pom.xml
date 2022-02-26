@@ -11,6 +11,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tome-logging-slf4j</artifactId>
+    <name>Tome :: Logging :: SLF4J</name>
+    <description>SPI for using SLF4J logging with Tome</description>
 
     <properties>
     </properties>

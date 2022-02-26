@@ -69,6 +69,9 @@
         <!-- api/impl modules -->
         <module>core</module>
 
+        <!-- logging modules -->
+        <module>logging/slf4j</module>
+
         <!-- sources -->
         <module>bean</module>
         <module>yaml</module>
@@ -80,7 +83,6 @@
 
         <!-- build so that we can see that the examples haven't been messed up -->
         <module>examples</module>
-        <module>logging/slf4j</module>
     </modules>
 
     <build>
