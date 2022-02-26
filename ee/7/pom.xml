@@ -63,7 +63,6 @@
         <dependency>
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jboss.weld.se/weld-se-core -->

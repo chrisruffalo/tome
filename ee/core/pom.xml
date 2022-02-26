@@ -37,7 +37,6 @@
         <dependency>
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-test</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
