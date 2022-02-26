@@ -3,6 +3,7 @@ package io.github.chrisruffalo.tome.core.resolver;
 import io.github.chrisruffalo.tome.core.message.Message;
 import io.github.chrisruffalo.tome.core.message.Type;
 import io.github.chrisruffalo.tome.core.source.Source;
+import io.github.chrisruffalo.tome.core.source.SourceContext;
 import io.github.chrisruffalo.tome.core.source.Value;
 import io.github.chrisruffalo.tome.core.token.Handler;
 import io.github.chrisruffalo.tome.core.token.Part;
@@ -13,12 +14,11 @@ import java.util.*;
 public class DefaultResolver implements Resolver {
 
     @Override
-    public Result resolve(String input, Handler handler, Source... sources) {
-        return this.resolve(handler, input, new HashSet<>(), new HashSet<>(), new HashMap<>(), new LinkedList<>(), sources);
+    public Result resolve(ResolvingContext resolvingContext, String input, Handler handler, Source... sources) {
+        return this.resolve(resolvingContext, handler, input, new HashSet<>(), new HashSet<>(), new HashMap<>(), new LinkedList<>(), sources);
     }
 
-
-    private Result resolve(final Handler handler, String input, final Set<String> previousSteps, final Set<String> allreadySeenParts, final Map<String, String> cache, List<Message> messages, final Source[] sources) {
+    private Result resolve(final ResolvingContext resolvingContext, final Handler handler, String input, final Set<String> previousSteps, final Set<String> allreadySeenParts, final Map<String, String> cache, List<Message> messages, final Source[] sources) {
 
         // if there are no tokens in the input return output with a trace denoting that
         if (!handler.containsToken(input)) {
@@ -49,7 +49,7 @@ public class DefaultResolver implements Resolver {
 
                     // do a resolve on the token itself and use it if something changed
                     if (handler.containsToken(part.getText())) {
-                        final Result partResult = this.resolve(handler, part.getText(), new HashSet<>(), new HashSet<>(allreadySeenParts), cache, new LinkedList<>(), sources);
+                        final Result partResult = this.resolve(resolvingContext, handler, part.getText(), new HashSet<>(), new HashSet<>(allreadySeenParts), cache, new LinkedList<>(), sources);
                         final String resolvedString = partResult.getResolved();
                         if (!part.getText().equals(resolvedString)) {
                             messages.addAll(partResult.getMessages());
@@ -66,11 +66,11 @@ public class DefaultResolver implements Resolver {
                     // try and resolve in sources
                     for (final Source source : sources) {
                         try {
-                            final Optional<Value> found = source.get(part.getText());
+                            final Optional<Value> found = source.get(SourceContext.from(resolvingContext), part.getText());
                             if (found.isPresent()) {
                                 String foundString = found.get().toString();
                                 if (handler.containsToken(foundString)) {
-                                    final Result partResult = this.resolve(handler, foundString, new HashSet<>(), new HashSet<>(allreadySeenParts), cache, new LinkedList<>(), sources);
+                                    final Result partResult = this.resolve(resolvingContext, handler, foundString, new HashSet<>(), new HashSet<>(allreadySeenParts), cache, new LinkedList<>(), sources);
                                     final String resolvedString = partResult.getResolved();
                                     if (!foundString.equals(resolvedString)) {
                                         input = this.replace(input, token.getFullText(), resolvedString);

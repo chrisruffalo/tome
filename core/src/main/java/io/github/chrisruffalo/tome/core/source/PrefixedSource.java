@@ -18,7 +18,7 @@ public class PrefixedSource extends DefaultSource {
     }
 
     @Override
-    public Optional<Value> get(String propertyName) {
+    public Optional<Value> get(SourceContext sourceContext, String propertyName) {
         // the property name must be longer than the prefix or we will
         // not be able to remove it
         if(propertyName == null || propertyName.length() <= prefix.length()) {
@@ -29,7 +29,7 @@ public class PrefixedSource extends DefaultSource {
         // the prefix and then continue on to the delegated source
         if (propertyName.startsWith(prefix)) {
             propertyName = propertyName.substring(prefix.length());
-            return this.prefixed.get(propertyName);
+            return this.prefixed.get(sourceContext, propertyName);
         }
 
         return Optional.empty();

@@ -12,11 +12,27 @@ public interface Resolver {
      * Given a string that may contain tokens: find the tokens and look up any values from the
      * given sources and replace the tokens with the found value.
      *
+     *
+     * @param resolvingContext
      * @param input given string that provides the input
      * @param handler the token handler that will find and split the tokens
      * @param sources the value sources that should be used
      * @return the string but with all the found tokens resolved or, if they cannot be resolved, the original token text
      */
-    Result resolve(final String input, final Handler handler, final Source... sources);
+    Result resolve(ResolvingContext resolvingContext, final String input, final Handler handler, final Source... sources);
+
+
+    /**
+     * Given a string that may contain tokens: find the tokens and look up any values from the
+     * given sources and replace the tokens with the found value.
+     *
+     * @param input given string that provides the input
+     * @param handler the token handler that will find and split the tokens
+     * @param sources the value sources that should be used
+     * @return the string but with all the found tokens resolved or, if they cannot be resolved, the original token text
+     */
+    default Result resolve(final String input, final Handler handler, final Source... sources) {
+        return this.resolve(new ResolvingContext(), input, handler, sources);
+    }
 
 }

@@ -49,6 +49,13 @@ public interface Configuration {
     void setLogger(final Logger logger);
 
     /**
+     * Return the logging instance in use by the configuration
+     *
+     * @return the logging instance
+     */
+    Logger getLogger();
+
+    /**
      * Given an expression containing multiple tokens resolve each token
      * as much as possible and return the resolved string.
      *

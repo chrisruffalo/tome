@@ -7,12 +7,12 @@ import java.util.Optional;
 public class SourceTest {
 
     protected void expectNotFound(final Source source, final String propertyName) {
-        final Optional<Value> found = source.get(propertyName);
+        final Optional<Value> found = source.get(new SourceContext(), propertyName);
         found.ifPresent(s -> Assertions.fail(String.format("The source implementation %s should not provide '%s'='%s', expected to not find a value", source.getClass().getSimpleName(), propertyName, s)));
     }
 
     protected void expect(final Source source, final String propertyName, final String expected) {
-        final Optional<Value> found = source.get(propertyName);
+        final Optional<Value> found = source.get(new SourceContext(), propertyName);
         if (!found.isPresent()) {
             Assertions.fail(String.format("The source implementation %s should provide '%s'='%s' but no value was found", source.getClass().getSimpleName(), propertyName, expected));
             return;

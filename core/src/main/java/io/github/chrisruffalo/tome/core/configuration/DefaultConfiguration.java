@@ -2,11 +2,15 @@ package io.github.chrisruffalo.tome.core.configuration;
 
 import io.github.chrisruffalo.tome.core.Configuration;
 import io.github.chrisruffalo.tome.core.log.Logger;
+import io.github.chrisruffalo.tome.core.log.LoggerFactory;
+import io.github.chrisruffalo.tome.core.log.NoOpLogger;
 import io.github.chrisruffalo.tome.core.resolver.DefaultResolver;
 import io.github.chrisruffalo.tome.core.resolver.Resolver;
+import io.github.chrisruffalo.tome.core.resolver.ResolvingContext;
 import io.github.chrisruffalo.tome.core.resolver.Result;
 import io.github.chrisruffalo.tome.core.source.PrioritizedSource;
 import io.github.chrisruffalo.tome.core.source.Source;
+import io.github.chrisruffalo.tome.core.source.SourceContext;
 import io.github.chrisruffalo.tome.core.source.Value;
 import io.github.chrisruffalo.tome.core.token.DefaultHandler;
 import io.github.chrisruffalo.tome.core.token.Handler;
@@ -21,7 +25,7 @@ public class DefaultConfiguration implements Configuration {
     private final List<PrioritizedSource> sources = new ArrayList<>(0);
     private Resolver resolver = new DefaultResolver();
     private Handler handler = new DefaultHandler();
-    private Logger logger = null;
+    private Logger logger = LoggerFactory.get();
 
     public DefaultConfiguration() {
 
@@ -52,6 +56,14 @@ public class DefaultConfiguration implements Configuration {
     }
 
     @Override
+    public Logger getLogger() {
+        if (this.logger == null) {
+            return new NoOpLogger();
+        }
+        return this.logger;
+    }
+
+    @Override
     public String format(String expression) {
         if (this.resolver == null || this.handler == null) {
             // if a logger is present then allow it to produce error messages
@@ -66,7 +78,7 @@ public class DefaultConfiguration implements Configuration {
             }
             return expression;
         }
-        final Result result = this.resolver.resolve(expression, handler, this.sources.toArray(new PrioritizedSource[0]));
+        final Result result = this.resolver.resolve(ResolvingContext.from(this), expression, handler, this.sources.toArray(new PrioritizedSource[0]));
         if (logger != null) {
             result.getMessages().forEach(logger::handle);
         }
@@ -75,7 +87,8 @@ public class DefaultConfiguration implements Configuration {
 
     @Override
     public Optional<String> get(String property) {
-        Optional<Optional<Value>> foundValue = this.sources.stream().map(source -> source.get(property)).filter(Optional::isPresent).findFirst();
+        final ResolvingContext resolvingContext = ResolvingContext.from(this);
+        Optional<Optional<Value>> foundValue = this.sources.stream().map(source -> source.get(SourceContext.from(resolvingContext), property)).filter(Optional::isPresent).findFirst();
         if (foundValue.isPresent() && foundValue.get().isPresent()) {
             Optional<Value> valueOptional = foundValue.get();
             final String expression = valueOptional.get().toString();

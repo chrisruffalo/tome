@@ -20,6 +20,12 @@
         <slf4j.version>1.7.32</slf4j.version>
 
         <snakeyaml.version>1.29</snakeyaml.version>
+
+        <jetcd.version>0.6.1</jetcd.version>
+
+        <vault.version>5.1.0</vault.version>
+
+        <junit.version>5.8.1</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -57,11 +63,25 @@
                 <version>${snakeyaml.version}</version>
             </dependency>
 
+            <!-- etcd -->
+            <dependency>
+                <groupId>io.etcd</groupId>
+                <artifactId>jetcd-core</artifactId>
+                <version>${jetcd.version}</version>
+            </dependency>
+
+            <!-- vault -->
+            <dependency>
+                <groupId>com.bettercloud</groupId>
+                <artifactId>vault-java-driver</artifactId>
+                <version>${vault.version}</version>
+            </dependency>
+
             <!-- testing framework -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>5.8.1</version>
+                <version>${junit.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

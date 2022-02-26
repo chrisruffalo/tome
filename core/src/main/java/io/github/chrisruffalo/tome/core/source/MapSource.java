@@ -15,7 +15,7 @@ public class MapSource extends DefaultSource {
     }
 
     @Override
-    public Optional<Value> get(String propertyName) {
+    public Optional<Value> get(SourceContext sourceContext, String propertyName) {
         if(this.source == null || propertyName == null || propertyName.isEmpty() || !this.source.containsKey(propertyName)) {
             return Optional.empty();
         }

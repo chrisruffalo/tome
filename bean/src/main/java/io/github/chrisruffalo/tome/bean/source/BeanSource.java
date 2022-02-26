@@ -1,6 +1,7 @@
 package io.github.chrisruffalo.tome.bean.source;
 
 import io.github.chrisruffalo.tome.core.source.Source;
+import io.github.chrisruffalo.tome.core.source.SourceContext;
 import io.github.chrisruffalo.tome.core.source.Value;
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -22,7 +23,7 @@ public class BeanSource implements Source {
         this.bean = bean;
     }
 
-    public Optional<Value> get(final String property) {
+    public Optional<Value> get(SourceContext sourceContext, final String property) {
         Property current = Property.parse(property);
         Object gotten = this.bean;
         while(current != null) {

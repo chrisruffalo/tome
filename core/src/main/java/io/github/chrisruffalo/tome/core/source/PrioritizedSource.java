@@ -21,8 +21,8 @@ public class PrioritizedSource implements Source, Comparable<PrioritizedSource> 
     }
 
     @Override
-    public Optional<Value> get(String propertyName) {
-        return internal.get(propertyName);
+    public Optional<Value> get(SourceContext sourceContext, String propertyName) {
+        return internal.get(sourceContext, propertyName);
     }
 
     @Override

@@ -63,10 +63,14 @@
         <module>bom</module>
         <module>test</module>
 
-        <!-- functional modules -->
+        <!-- api/impl modules -->
         <module>core</module>
+
+        <!-- sources -->
         <module>bean</module>
         <module>yaml</module>
+        <module>etcd</module>
+        <module>vault</module>
 
         <!-- ee support -->
         <module>ee/core</module>
@@ -75,7 +79,6 @@
 
         <!-- build so that we can see that the examples haven't been messed up -->
         <module>examples</module>
-
     </modules>
 
     <build>

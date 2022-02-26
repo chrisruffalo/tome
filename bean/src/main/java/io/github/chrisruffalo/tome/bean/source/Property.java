@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 class Property implements Iterable<Property> {
 
+    private static final String DEFAULT_SEGMENT_SEPARATOR = ".";
     private static final String INDEX_START = "[";
     private static final String INDEX_END = "]";
     private static final String MAP_START = "(";
@@ -42,23 +43,23 @@ class Property implements Iterable<Property> {
         return Pattern.compile(pattern);
     }
 
-    public static Property parse(final String fulLPropertyPath) {
-        if (fulLPropertyPath == null || fulLPropertyPath.isEmpty()) {
+    public static Property parse(final String fullPropertyPath) {
+        if (fullPropertyPath == null || fullPropertyPath.isEmpty()) {
             return null;
         }
 
-        final Matcher indexMatcher = INDEX_MATCH.matcher(fulLPropertyPath);
-        final Matcher mapMatcher = MAP_MATCH.matcher(fulLPropertyPath);
+        final Matcher indexMatcher = INDEX_MATCH.matcher(fullPropertyPath);
+        final Matcher mapMatcher = MAP_MATCH.matcher(fullPropertyPath);
 
         // no segments
-        if (!fulLPropertyPath.contains(".") && !indexMatcher.find() && !mapMatcher.find()) {
-            return new Property(fulLPropertyPath);
+        if (!fullPropertyPath.contains(DEFAULT_SEGMENT_SEPARATOR) && !indexMatcher.find() && !mapMatcher.find()) {
+            return new Property(fullPropertyPath);
         }
 
         // keep all the segments here so that we can stitch them together later
         final List<Property> properties = new LinkedList<>();
 
-        final String[] segments = fulLPropertyPath.split("\\.");
+        final String[] segments = fullPropertyPath.split(Pattern.quote(DEFAULT_SEGMENT_SEPARATOR));
         Arrays.stream(segments).forEach(segment -> {
             Matcher localIndexMatcher = INDEX_MATCH.matcher(segment);
 

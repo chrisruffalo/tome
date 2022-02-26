@@ -1,6 +1,7 @@
 package io.github.chrisruffalo.tome.bean.source;
 
 import io.github.chrisruffalo.tome.core.source.Source;
+import io.github.chrisruffalo.tome.core.source.SourceContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,8 +12,8 @@ public class BeanSourceTest {
         final TestBean bean = new TestBean("root");
         final Source source = new BeanSource(bean);
 
-        Assertions.assertTrue(source.get("name").isPresent());
-        Assertions.assertEquals("root", source.get("name").get().toString());
+        Assertions.assertTrue(source.get(new SourceContext(), "name").isPresent());
+        Assertions.assertEquals("root", source.get(new SourceContext(), "name").get().toString());
     }
 
     @Test
@@ -20,9 +21,9 @@ public class BeanSourceTest {
         final TestBean bean = new TestBean("root");
         final Source source = new BeanSource(bean);
 
-        Assertions.assertTrue(source.get("other").isPresent());
-        Assertions.assertEquals("null", source.get("other").get().toString());
-        Assertions.assertFalse(source.get("other.name").isPresent());
+        Assertions.assertTrue(source.get(new SourceContext(), "other").isPresent());
+        Assertions.assertEquals("null", source.get(new SourceContext(), "other").get().toString());
+        Assertions.assertFalse(source.get(new SourceContext(), "other.name").isPresent());
     }
 
     @Test
@@ -30,9 +31,9 @@ public class BeanSourceTest {
         final TestBean bean = new TestBean("root");
         final Source source = new BeanSource(bean);
 
-        Assertions.assertFalse(source.get("notAProperty").isPresent());
-        Assertions.assertFalse(source.get("siblings[2].name").isPresent());
-        Assertions.assertFalse(source.get("beanMap.root").isPresent());
+        Assertions.assertFalse(source.get(new SourceContext(), "notAProperty").isPresent());
+        Assertions.assertFalse(source.get(new SourceContext(), "siblings[2].name").isPresent());
+        Assertions.assertFalse(source.get(new SourceContext(), "beanMap.root").isPresent());
     }
 
     @Test
@@ -41,8 +42,8 @@ public class BeanSourceTest {
         bean.setOther(bean);
         final Source source = new BeanSource(bean);
 
-        Assertions.assertTrue(source.get("other.name").isPresent());
-        Assertions.assertEquals("root", source.get("other.name").get().toString());
+        Assertions.assertTrue(source.get(new SourceContext(), "other.name").isPresent());
+        Assertions.assertEquals("root", source.get(new SourceContext(), "other.name").get().toString());
     }
 
     @Test
@@ -55,8 +56,8 @@ public class BeanSourceTest {
 
         final Source source = new BeanSource(bean);
 
-        Assertions.assertTrue(source.get("other.siblings[1].beanMap.root.name").isPresent());
-        Assertions.assertEquals("root", source.get("other.siblings[1].beanMap.root.name").get().toString());
+        Assertions.assertTrue(source.get(new SourceContext(), "other.siblings[1].beanMap.root.name").isPresent());
+        Assertions.assertEquals("root", source.get(new SourceContext(), "other.siblings[1].beanMap.root.name").get().toString());
     }
 
 }

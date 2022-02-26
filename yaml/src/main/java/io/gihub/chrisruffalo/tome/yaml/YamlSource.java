@@ -2,6 +2,7 @@ package io.gihub.chrisruffalo.tome.yaml;
 
 import io.github.chrisruffalo.tome.bean.source.BeanSource;
 import io.github.chrisruffalo.tome.core.source.Source;
+import io.github.chrisruffalo.tome.core.source.SourceContext;
 import io.github.chrisruffalo.tome.core.source.Value;
 import org.yaml.snakeyaml.Yaml;
 
@@ -64,7 +65,7 @@ public class YamlSource implements Source {
 
 
     @Override
-    public Optional<Value> get(String propertyName) {
-        return this.delegate.get(propertyName);
+    public Optional<Value> get(SourceContext sourceContext, String propertyName) {
+        return this.delegate.get(new SourceContext(), propertyName);
     }
 }

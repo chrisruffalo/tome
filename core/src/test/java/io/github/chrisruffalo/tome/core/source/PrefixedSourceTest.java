@@ -11,7 +11,7 @@ public class PrefixedSourceTest {
     @Test
     public void testTooShort() {
         final Source prefix = new PrefixedSource("env.", new EnvironmentVariableSource());
-        Assertions.assertFalse(prefix.get("s").isPresent());
+        Assertions.assertFalse(prefix.get(new SourceContext(), "s").isPresent());
     }
 
     @Test
@@ -21,13 +21,13 @@ public class PrefixedSourceTest {
         final Source prefixedMapSource = new PrefixedSource("map.", new MapSource(map));
 
         // found
-        Assertions.assertTrue(prefixedMapSource.get("map.property").isPresent());
+        Assertions.assertTrue(prefixedMapSource.get(new SourceContext(), "map.property").isPresent());
 
         // not found
-        Assertions.assertFalse(prefixedMapSource.get("mapproperty").isPresent());
-        Assertions.assertFalse(prefixedMapSource.get("map..property").isPresent());
-        Assertions.assertFalse(prefixedMapSource.get("m.property").isPresent());
-        Assertions.assertFalse(prefixedMapSource.get("map.prop").isPresent());
+        Assertions.assertFalse(prefixedMapSource.get(new SourceContext(), "mapproperty").isPresent());
+        Assertions.assertFalse(prefixedMapSource.get(new SourceContext(), "map..property").isPresent());
+        Assertions.assertFalse(prefixedMapSource.get(new SourceContext(), "m.property").isPresent());
+        Assertions.assertFalse(prefixedMapSource.get(new SourceContext(), "map.prop").isPresent());
     }
 
 }

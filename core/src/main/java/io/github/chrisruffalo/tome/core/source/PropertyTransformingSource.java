@@ -23,13 +23,13 @@ public class PropertyTransformingSource extends DefaultSource {
     }
 
     @Override
-    public Optional<Value> get(String propertyName) {
+    public Optional<Value> get(SourceContext sourceContext, String propertyName) {
         // use the transformer to transform the value so it can be used
         Optional<String> transformed = transformer.apply(propertyName);
         // if the transformer fails to transform a property name or
         // otherwise fails to crate output it will be considered as
         // filtering out / discarding the request and it will return
         // empty
-        return transformed.flatMap(source::get);
+        return transformed.flatMap(propertyName1 -> source.get(sourceContext, propertyName1));
     }
 }

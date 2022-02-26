@@ -8,7 +8,7 @@ import java.util.Optional;
 public class ExceptionSource implements Source {
 
     @Override
-    public Optional<Value> get(String propertyName) {
+    public Optional<Value> get(SourceContext sourceContext, String propertyName) {
         throw new RuntimeException("Test exception");
     }
 }

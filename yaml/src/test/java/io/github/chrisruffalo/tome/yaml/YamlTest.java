@@ -9,6 +9,7 @@ import io.github.chrisruffalo.tome.core.directive.impl.SimpleDirectiveConfigurat
 import io.github.chrisruffalo.tome.core.resolver.DefaultResolver;
 import io.github.chrisruffalo.tome.core.resolver.Resolver;
 import io.github.chrisruffalo.tome.core.resolver.ResolvingReader;
+import io.github.chrisruffalo.tome.core.source.SourceContext;
 import io.github.chrisruffalo.tome.core.source.Value;
 import io.github.chrisruffalo.tome.core.token.DefaultHandler;
 import io.github.chrisruffalo.tome.test.TestUtil;
@@ -62,10 +63,10 @@ public class YamlTest {
             final YamlSource yamlSource = new YamlSource();
             yamlSource.load(yamlReader);
 
-            Assertions.assertEquals("${ env.alt_host | 'google.com'}", yamlSource.get("env.host").orElse(new Value("no")).toString());
+            Assertions.assertEquals("${ env.alt_host | 'google.com'}", yamlSource.get(new SourceContext(), "env.host").orElse(new Value("no")).toString());
 
             final Resolver resolver = new DefaultResolver();
-            Assertions.assertEquals("google.com", resolver.resolve(yamlSource.get("env.host").orElse(new Value("no")).toString(), new DefaultHandler(), yamlSource).getResolved());
+            Assertions.assertEquals("google.com", resolver.resolve(yamlSource.get(new SourceContext(), "env.host").orElse(new Value("no")).toString(), new DefaultHandler(), yamlSource).getResolved());
         }
     }
 

@@ -17,7 +17,7 @@ public class DefaultResolverTest {
     public void testNoTokens() {
         final Handler handler = new DefaultHandler();
         final Resolver resolver = new DefaultResolver();
-        final Result result = resolver.resolve("same", handler);
+        final Result result = resolver.resolve(new ResolvingContext(), "same", handler);
         Assertions.assertEquals("same", result.getResolved());
         Assertions.assertFalse(result.hasErrors());
         Assertions.assertFalse(result.getMessages(Type.FINE).get(0).getMessage().isEmpty());
@@ -41,7 +41,7 @@ public class DefaultResolverTest {
     public void testErroredResolution() {
         final Handler handler = new DefaultHandler();
         final Resolver resolver = new DefaultResolver();
-        final Result result = resolver.resolve("there must be one ${token} that goes to a source", handler, new ExceptionSource());
+        final Result result = resolver.resolve(new ResolvingContext(), "there must be one ${token} that goes to a source", handler, new ExceptionSource());
 
         // ensure that an error was collected
         Assertions.assertTrue(result.hasErrors());

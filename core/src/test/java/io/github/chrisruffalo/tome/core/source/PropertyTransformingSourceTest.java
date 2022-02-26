@@ -19,17 +19,17 @@ public class PropertyTransformingSourceTest {
 
         // create a source that overlays the other with the transformer
         final Source source = new PropertyTransformingSource(backingSource, new UppercaseTransformer());
-        Assertions.assertEquals("upper", source.get("upper").orElse(new Value("")).toString());
-        Assertions.assertEquals("upper", source.get("uPper").orElse(new Value("")).toString());
-        Assertions.assertEquals("upper", source.get("UPPER").orElse(new Value("")).toString());
-        Assertions.assertFalse(source.get(null).isPresent());
-        Assertions.assertFalse(source.get("").isPresent());
+        Assertions.assertEquals("upper", source.get(new SourceContext(), "upper").orElse(new Value("")).toString());
+        Assertions.assertEquals("upper", source.get(new SourceContext(), "uPper").orElse(new Value("")).toString());
+        Assertions.assertEquals("upper", source.get(new SourceContext(), "UPPER").orElse(new Value("")).toString());
+        Assertions.assertFalse(source.get(new SourceContext(), null).isPresent());
+        Assertions.assertFalse(source.get(new SourceContext(), "").isPresent());
 
         // ensure the backing source doesn't do any of that after removal
         backer.remove("upper");
-        Assertions.assertFalse(backingSource.get("upper").isPresent());
-        Assertions.assertFalse(backingSource.get("uPpeR").isPresent());
-        Assertions.assertTrue(backingSource.get("UPPER").isPresent());
+        Assertions.assertFalse(backingSource.get(new SourceContext(), "upper").isPresent());
+        Assertions.assertFalse(backingSource.get(new SourceContext(), "uPpeR").isPresent());
+        Assertions.assertTrue(backingSource.get(new SourceContext(), "UPPER").isPresent());
     }
 
     @Test
@@ -41,17 +41,17 @@ public class PropertyTransformingSourceTest {
 
         // create a source that overlays the other with the transformer
         final Source source = new PropertyTransformingSource(backingSource, new LowercaseTransformer());
-        Assertions.assertEquals("lower", source.get("LOWER").orElse(new Value("")).toString());
-        Assertions.assertEquals("lower", source.get("loWer").orElse(new Value("")).toString());
-        Assertions.assertEquals("lower", source.get("lower").orElse(new Value("")).toString());
-        Assertions.assertFalse(source.get(null).isPresent());
-        Assertions.assertFalse(source.get("").isPresent());
+        Assertions.assertEquals("lower", source.get(new SourceContext(), "LOWER").orElse(new Value("")).toString());
+        Assertions.assertEquals("lower", source.get(new SourceContext(), "loWer").orElse(new Value("")).toString());
+        Assertions.assertEquals("lower", source.get(new SourceContext(), "lower").orElse(new Value("")).toString());
+        Assertions.assertFalse(source.get(new SourceContext(), null).isPresent());
+        Assertions.assertFalse(source.get(new SourceContext(), "").isPresent());
 
         // ensure the backing source doesn't do any of that after removal
         backer.remove("LOWER");
-        Assertions.assertFalse(backingSource.get("LOWER").isPresent());
-        Assertions.assertFalse(backingSource.get("lOwEr").isPresent());
-        Assertions.assertTrue(backingSource.get("lower").isPresent());
+        Assertions.assertFalse(backingSource.get(new SourceContext(), "LOWER").isPresent());
+        Assertions.assertFalse(backingSource.get(new SourceContext(), "lOwEr").isPresent());
+        Assertions.assertTrue(backingSource.get(new SourceContext(), "lower").isPresent());
     }
 
 }

@@ -18,10 +18,14 @@ public class SopsReader extends Reader {
     private static final String SOPS_PATH_PROPERTY = "sops.executable_path";
     private static final String SOPS_ENV_PROPERTY = "SOPS_EXECUTABLE_PATH";
 
+    private static final String COMMAND_INPUT_TYPE = "--input-type";
+    private static final String COMMAND_OUTPUT_TYPE = "--output-type";
+
     private static final String[] EXTENSIONS = new String[]{"", ".exe"};
     private static final String SOPS_EXECUTABLE = "sops";
     private static final String SOPS_KEY_PREFIX = "sops.";
 
+    private final SopsConfiguration configuration;
     private final Path pathToSops;
     private SopsDataType dataType;
 
@@ -30,7 +34,7 @@ public class SopsReader extends Reader {
 
     private volatile Reader delegate;
 
-    private SopsReader() {
+    private SopsReader(final SopsConfiguration configuration) {
         // check for the ability to find the sops binary on the path
         // and if it cannot be found
         Optional<Path> sopsPath = findSopsByConfigurationAndThenPath();
@@ -70,13 +74,16 @@ public class SopsReader extends Reader {
             throw new RuntimeException(String.format("There was an error executing the `sops --version` command, exit value=%d", exitValue));
         }
 
+        // save configuration to instance
+        this.configuration = configuration == null ? new SopsConfiguration() : configuration;
+
         // the sops executable has been found and works so use it
         pathToSops = sopsPath.get();
     }
 
     /**
-     * Creates a reader that reads from the given reader and assumes
-     * JSON input.
+     * Creates a sops reader that reads from the given reader and assumes
+     * the default input type (JSON).
      *
      * @param input reader to read from
      */
@@ -85,25 +92,62 @@ public class SopsReader extends Reader {
     }
 
     /**
-     * Creates a reader that assumes the provided input type
+     * Creates a sops reader that assumes the provided input type
      *
      * @param input reader to read from
      * @param inputType the type (json, yaml, etc) of the input
      */
     public SopsReader(Reader input, final SopsDataType inputType) {
-        this();
+        this(new SopsConfiguration(), input, inputType);
+    }
+
+    /**
+     * Creates a sops reader with a configuration assuming the default
+     * input type (JSON).
+     *
+     * @param configuration the configuration object to use for configuring the sops execution environment
+     * @param input reader to read from
+     */
+    public SopsReader(SopsConfiguration configuration, final Reader input) {
+        this(configuration, input, SopsDataType.JSON);
+    }
+
+    /**
+     * Fully configured sops reader that takes a configuration, reader input, and the
+     * data type for input.
+     *
+     * @param configuration the configuration object to use for configuring the sops execution environment
+     * @param input reader to read from
+     * @param inputType the type (json, yaml, etc) of the input
+     */
+    public SopsReader(SopsConfiguration configuration, Reader input, final SopsDataType inputType) {
+        this(configuration);
 
         // use this as the input when the sops command is invoked
         this.input = input;
         this.dataType = inputType;
     }
 
-    public SopsReader(Path inputPath) {
-        this();
+    /**
+     * Create a sops reader pointing to an object at a path
+     *
+     * @param inputPath the path to the file
+     */
+    public SopsReader(final Path inputPath) {
+        this(new SopsConfiguration(), inputPath);
+    }
+
+    /**
+     * Create a sops reader with a configuration pointing at an object at a path
+     *
+     * @param configuration configuration object
+     * @param inputPath the path to the file
+     */
+    public SopsReader(SopsConfiguration configuration, Path inputPath) {
+        this(configuration);
 
         this.inputPath = inputPath;
     }
-
 
     @Override
     public int read(char[] cbuf, int off, int len) throws IOException {
@@ -157,11 +201,22 @@ public class SopsReader extends Reader {
             commandArgs.add(pathToSops.toString());
             // if a data type is provided assume the pass-through and that the input/output type will be the same
             if (this.dataType != null) {
-                commandArgs.add("--input-type");
-                commandArgs.add(this.dataType.getArgument());
-                commandArgs.add("--output-type");
-                commandArgs.add(this.dataType.getArgument());
+                // do not add command argument if it is provided in the configuration object
+                if (!configuration.getCommandLine().containsKey(COMMAND_INPUT_TYPE)) {
+                    commandArgs.add(COMMAND_INPUT_TYPE);
+                    commandArgs.add(this.dataType.getArgument());
+                }
+                // do not add command argument if it is provided in the configuration object
+                if (!configuration.getCommandLine().containsKey(COMMAND_OUTPUT_TYPE)) {
+                    commandArgs.add(COMMAND_OUTPUT_TYPE);
+                    commandArgs.add(this.dataType.getArgument());
+                }
             }
+            // go through other command keys provided by configuration
+            this.configuration.getCommandLine().values().forEach(command -> {
+                commandArgs.add(command.getKey());
+                commandArgs.add(command.getStringValue());
+            });
             commandArgs.add("-d");
             commandArgs.add(inputPath.toString());
 
@@ -179,6 +234,11 @@ public class SopsReader extends Reader {
             // copy environment
             processBuilder.environment().putAll(System.getenv());
             processBuilder.environment().remove(SOPS_ENV_PROPERTY);
+
+            // use configuration to overwrite any of those values
+            this.configuration.getEnvironment().values().forEach(environment -> {
+                processBuilder.environment().put(environment.getKey(), environment.getStringValue());
+            });
 
             final Process process = processBuilder.start();
 

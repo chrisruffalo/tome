@@ -19,9 +19,11 @@ public interface Source {
      * Value instance should never be presented.
      *
      *
+     *
+     * @param sourceContext the context that the source request is being made under
      * @param propertyName the (non-null, non-empty) name of the property to return (not resolve) from the source
      * @return either an empty optional for not found or a Value instance containing the value found in the source
      */
-    Optional<Value> get(final String propertyName);
+    Optional<Value> get(SourceContext sourceContext, final String propertyName);
 
 }
