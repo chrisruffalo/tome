@@ -1,9 +1,6 @@
 package io.github.chrisruffalo.tome.etcd;
 
-import io.etcd.jetcd.ByteSequence;
-import io.etcd.jetcd.Client;
-import io.etcd.jetcd.KV;
-import io.etcd.jetcd.KeyValue;
+import io.etcd.jetcd.*;
 import io.etcd.jetcd.kv.GetResponse;
 import io.github.chrisruffalo.tome.core.source.Source;
 import io.github.chrisruffalo.tome.core.source.SourceContext;
@@ -16,16 +13,19 @@ import java.util.concurrent.ExecutionException;
 
 public class EtcdSource implements Source {
 
-    private final Client client;
+    private final ClientBuilder clientBuilder;
 
-    public EtcdSource(final Client client) {
-        this.client = client;
+    public EtcdSource(final ClientBuilder clientBuilder) {
+        this.clientBuilder = clientBuilder;
     }
 
     @Override
     public Optional<Value> get(SourceContext sourceContext, String propertyName) {
         final ByteSequence key = getKey(propertyName);
-        try (final KV kv = client.getKVClient()) {
+        try (
+            final Client client = this.clientBuilder.build();
+            final KV kv = client.getKVClient();
+        ) {
             CompletableFuture<GetResponse> getFuture = kv.get(key);
             GetResponse response = getFuture.get();
             if (response.getCount() < 1) {
