@@ -13,6 +13,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 public class SopsReader extends Reader {
+
+    private static final int BUFFER_SIZE = 1024 * 8; // 8kb buffer
+
     private static final String PATH_VAR = "PATH";
 
     private static final String SOPS_PATH_PROPERTY = "sops.executable_path";
@@ -184,7 +187,7 @@ public class SopsReader extends Reader {
                 try (
                     final Writer writer = Files.newBufferedWriter(inputPath)
                 ) {
-                    Util.transfer(this.input, writer);
+                    SopsReader.transfer(this.input, writer);
                 }
             }
 
@@ -332,5 +335,16 @@ public class SopsReader extends Reader {
         }
 
         return Optional.empty();
+    }
+
+    private static int transfer(final Reader input, final Writer output) throws IOException {
+        char[] buffer = new char[BUFFER_SIZE];
+        int count = 0;
+        int n = 0;
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+            count += n;
+        }
+        return count;
     }
 }

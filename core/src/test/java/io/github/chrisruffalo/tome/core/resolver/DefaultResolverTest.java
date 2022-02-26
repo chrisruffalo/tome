@@ -88,9 +88,25 @@ public class DefaultResolverTest {
 
         result = resolver.resolve("he is a ${${'${adjective}'} | 'good'} dog", handler, mapSource);
         Assertions.assertTrue(result.hasWarnings());
-        // TODO: make the following work
-        //Assertions.assertEquals("he is a good dog", result.getResolved());
+        Assertions.assertEquals("he is a good dog", result.getResolved());
         Assertions.assertFalse(result.getMessages(Type.WARN).get(0).getMessage().isEmpty());
+    }
+
+    @Test
+    public void testVariableComposition() {
+        final Handler handler = new DefaultHandler();
+        final Resolver resolver = new DefaultResolver();
+        final HashMap<String, String> sourceMap = new HashMap<>();
+        sourceMap.put("env", "prod");
+        sourceMap.put("${env}-db}", "broken");
+        sourceMap.put("test-db", "test-db");
+        sourceMap.put("prod-db", "prod-db");
+        final Source mapSource = new MapSource(sourceMap);
+
+        // this should resolve the environment from the "env" property and then
+        // use that to resolve the correct value
+        Result result = resolver.resolve("${${env}-db}", handler, mapSource);
+        Assertions.assertEquals("prod-db", result.getResolved());
     }
 
     @Test
