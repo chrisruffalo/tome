@@ -22,7 +22,7 @@
             <dependency>
                 <groupId>io.github.chrisruffalo</groupId>
                 <artifactId>tome-bom</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -38,6 +38,19 @@
         <dependency>
             <groupId>com.bettercloud</groupId>
             <artifactId>vault-java-driver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>vault</artifactId>
+            <version>1.16.3</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

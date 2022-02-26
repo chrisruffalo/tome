@@ -3,3 +3,6 @@
 
 # ignore maven files
 **/target
+
+# ignore flattened pom files
+**/.flattened-pom.xml

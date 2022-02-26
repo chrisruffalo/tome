@@ -24,6 +24,9 @@
 
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <!-- shared versions from root, not bom, for some items -->
+        <version.flatten>1.2.5</version.flatten>
     </properties>
 
     <dependencyManagement>
@@ -69,8 +72,6 @@
         <!-- sources -->
         <module>bean</module>
         <module>yaml</module>
-        <module>etcd</module>
-        <module>vault</module>
 
         <!-- ee support -->
         <module>ee/core</module>
@@ -79,6 +80,7 @@
 
         <!-- build so that we can see that the examples haven't been messed up -->
         <module>examples</module>
+        <module>logging/slf4j</module>
     </modules>
 
     <build>
@@ -96,6 +98,34 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>flatten-maven-plugin</artifactId>
+                        <version>${version.flatten}</version>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>flatten</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>flatten</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>flatten.clean</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
     </build>
 
     <profiles>
@@ -106,6 +136,16 @@
             </activation>
             <modules>
                 <module>sops</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>testcontainers</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>etcd</module>
+                <module>vault</module>
             </modules>
         </profile>
     </profiles>

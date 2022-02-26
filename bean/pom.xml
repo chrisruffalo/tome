@@ -23,7 +23,7 @@
             <dependency>
                 <groupId>io.github.chrisruffalo</groupId>
                 <artifactId>tome-bom</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -11,7 +11,9 @@ import io.github.chrisruffalo.tome.core.source.Value;
 import java.util.Optional;
 
 /**
- * Using a given vault config connect to a vault and read values
+ * Using a given vault config connect to a vault and read values, requires a special
+ * property name like "/path/to/property/parent:propertyName" to get the value from
+ * the map at the vault level.
  */
 public class VaultSource implements Source {
 
