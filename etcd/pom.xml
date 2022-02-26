@@ -49,6 +49,11 @@
             <groupId>io.etcd</groupId>
             <artifactId>jetcd-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.etcd</groupId>
+            <artifactId>jetcd-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

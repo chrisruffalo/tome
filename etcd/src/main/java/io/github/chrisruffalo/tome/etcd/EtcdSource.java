@@ -37,7 +37,8 @@ public class EtcdSource implements Source {
                     .map(keyValue -> keyValue.getValue().toString())
                     .filter(value -> value != null && !value.isEmpty())
                     .findFirst();
-            return Optional.of(new Value(stringValue));
+            // map the found value (a string) into the container value
+            return stringValue.map(Value::new);
         } catch (InterruptedException | ExecutionException e) {
             sourceContext.getLoggerFactory().get(this.getClass()).error(String.format("Could not complete ETCD operation for property %s", propertyName), e);
         }

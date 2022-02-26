@@ -28,15 +28,10 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- used to navigate beans/java classes to get properties -->
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

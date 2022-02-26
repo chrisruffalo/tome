@@ -26,7 +26,7 @@ public class VaultSourceTest {
             .withSecretInVault("secret/testing", "top_secret=password1","db_password=dbpassword1");
 
     @Test
-    public void someTestMethod() throws VaultException {
+    public void testSimpleResolution() throws VaultException {
         //interact with Vault via the container's host, port and Vault token.
         VaultConfig config = new VaultConfig()
                 .token(TOKEN)
@@ -65,5 +65,6 @@ public class VaultSourceTest {
 
         // resolve out host
         Assert.assertEquals("postgres://prod:password1@ecaga-prod-11", configuration.get("db.url").orElse(""));
+        Assert.assertEquals("postgres://prod:password1@ecaga-prod-11", configuration.format("${db.url}"));
     }
 }
