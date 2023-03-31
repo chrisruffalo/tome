@@ -1,12 +1,11 @@
 package io.github.chrisruffalo.tome.core;
 
 import io.github.chrisruffalo.tome.core.log.Logger;
+import io.github.chrisruffalo.tome.core.log.LoggerFactory;
 import io.github.chrisruffalo.tome.core.source.Source;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,19 +40,18 @@ public interface Configuration {
     void clearSources();
 
     /**
-     * Provide a log handling mechanism to the logger. If not provided the log messages
-     * will be silent from the internal mechanism.
+     * Set the logger factory that will be used to create named loggers inside
+     * the configuration.
      *
-     * @param logger the logger to use to handle messages from resolution
+     * @param loggerFactory a creator instance
      */
-    void setLogger(final Logger logger);
+    void setLoggerFactory(final LoggerFactory loggerFactory);
 
     /**
-     * Return the logging instance in use by the configuration
+     * Get the factory in use by this configuration to create logger objects
      *
-     * @return the logging instance
      */
-    Logger getLogger();
+    LoggerFactory getLoggerFactory();
 
     /**
      * Given an expression containing multiple tokens resolve each token

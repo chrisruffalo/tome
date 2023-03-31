@@ -46,7 +46,6 @@
                 <groupId>io.github.chrisruffalo</groupId>
                 <artifactId>tome-test</artifactId>
                 <version>${project.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>io.github.chrisruffalo</groupId>
@@ -56,6 +55,11 @@
             <dependency>
                 <groupId>io.github.chrisruffalo</groupId>
                 <artifactId>tome-yaml</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.chrisruffalo</groupId>
+                <artifactId>tome-logging-slf4j</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

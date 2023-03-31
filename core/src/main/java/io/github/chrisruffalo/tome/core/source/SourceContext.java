@@ -2,6 +2,7 @@ package io.github.chrisruffalo.tome.core.source;
 
 import io.github.chrisruffalo.tome.core.log.Logger;
 import io.github.chrisruffalo.tome.core.log.LoggerFactory;
+import io.github.chrisruffalo.tome.core.log.SpiLoggerFactory;
 import io.github.chrisruffalo.tome.core.resolver.ResolvingContext;
 
 /**
@@ -11,23 +12,23 @@ import io.github.chrisruffalo.tome.core.resolver.ResolvingContext;
  */
 public class SourceContext {
 
-    private Logger logger;
+    private LoggerFactory loggerFactory;
 
     public SourceContext() {
-        this.logger = LoggerFactory.get();
+        this.loggerFactory = SpiLoggerFactory.get();
     }
 
-    public void setLogger(final Logger logger) {
-        this.logger = logger;
+    public void setLoggerFactory(final LoggerFactory log) {
+        this.loggerFactory = log;
     }
 
-    public Logger getLogger() {
-        return logger;
+    public LoggerFactory getLoggerFactory() {
+        return loggerFactory;
     }
 
     public static SourceContext from(final ResolvingContext resolvingContext) {
         final SourceContext context = new SourceContext();
-        context.setLogger(resolvingContext.getLogger());
+        context.setLoggerFactory(resolvingContext.getLoggerFactory());
         return context;
     }
 }

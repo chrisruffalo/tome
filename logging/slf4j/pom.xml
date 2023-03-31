@@ -35,6 +35,24 @@
             <groupId>io.github.chrisruffalo</groupId>
             <artifactId>tome-core</artifactId>
         </dependency>
+
+        <!-- slf4j api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- testing -->
+        <dependency>
+            <groupId>io.github.chrisruffalo</groupId>
+            <artifactId>tome-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
